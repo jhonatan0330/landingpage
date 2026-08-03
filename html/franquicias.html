@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('d3apps-theme');
+        if (!t) { t = 'dark'; }
+        document.documentElement.dataset.theme = t;
+      } catch (e) { document.documentElement.dataset.theme = 'dark'; }
+    })();
+  </script>
+  <title>Franquicias — Expande el modelo D3Apps en tu región | D3Apps</title>
+  <meta name="description"
+    content="Conviértete en franquicia D3Apps: opera el modelo SaaS por tokens en tu ciudad o región con entrenamiento y acompañamiento del equipo central.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icons/dark_264x264.png">
+</head>
+
+<body>
+
+  <!-- ======================= HEADER ======================= -->
+  <header id="site-header"></header>
+
+  <main>
+
+    <!-- ======================= PRODUCT HERO ======================= -->
+    <section class="product-hero" id="franquicias">
+      <div class="container">
+        <nav class="breadcrumb reveal">
+          <a href="index.html">Inicio</a>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          <span>Franquicias</span>
+        </nav>
+
+        <div class="product-hero-grid">
+          <div class="product-hero-copy">
+            <div class="product-title-row reveal reveal-delay-1">
+              <span class="badge" style="background:var(--primary-soft);color:var(--primary)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+              </span>
+              <h1>Franquicias D3Apps</h1>
+            </div>
+            <p class="lead reveal reveal-delay-2">
+              D3Apps provee su software en modelo SaaS y cobra por tokens usados. Las franquicias locales venden y
+              acompañan la solución en su región, con el respaldo del software, el entrenamiento y el soporte del
+              equipo central.
+            </p>
+            <div class="hero-actions reveal reveal-delay-3">
+              <a href="#contacto" class="btn btn-primary btn-lg">Quiero ser franquicia</a>
+            </div>
+            <div class="product-meta reveal reveal-delay-4">
+              <span class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M6 12h12"/><path d="M12 6v12"/></svg>
+                Modelo SaaS por tokens
+              </span>
+              <span class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Acompañamiento regional
+              </span>
+              <span class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                Ingresos recurrentes
+              </span>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal reveal-delay-2">
+            <div class="glow"></div>
+            <div class="dashboard">
+              <div class="dashboard-bar">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="url">portal.d3-apps.com/franquicias</span>
+              </div>
+              <div class="dashboard-body">
+                <div class="dashboard-main">
+                  <div class="kpis">
+                    <div class="kpi">
+                      <div class="kpi-label">Clientes activos</div>
+                      <div class="kpi-value">24</div>
+                      <span class="kpi-trend up">▲ 18%</span>
+                    </div>
+                    <div class="kpi">
+                      <div class="kpi-label">Tokens en uso</div>
+                      <div class="kpi-value">8.4K</div>
+                      <span class="kpi-trend up">▲ 12%</span>
+                    </div>
+                  </div>
+                  <div class="chart-card">
+                    <div class="chart-title"><span>Crecimiento de la franquicia</span></div>
+                    <div class="bars">
+                      <div class="bar" style="height:40%"></div>
+                      <div class="bar" style="height:55%"></div>
+                      <div class="bar" style="height:48%"></div>
+                      <div class="bar" style="height:70%"></div>
+                      <div class="bar" style="height:64%"></div>
+                      <div class="bar" style="height:82%"></div>
+                      <div class="bar" style="height:76%"></div>
+                      <div class="bar" style="height:94%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= BENEFICIOS DE SER FRANQUICIA ======================= -->
+    <section class="benefits-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Beneficios</span>
+          <h2 class="section-title">Beneficios de <span class="accent">ser franquicia D3Apps</span></h2>
+          <p class="section-desc">Opera un modelo probado con el respaldo del equipo central y crece en tu región.</p>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card reveal">
+            <span class="b-icon" style="background:var(--primary-soft);color:var(--primary)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </span>
+            <h3>Software listo para vender</h3>
+            <p>Accede al ecosistema D3Apps completo, validado y en funcionamiento desde el primer día.</p>
+          </div>
+          <div class="benefit-card reveal reveal-delay-1">
+            <span class="b-icon" style="background:var(--green-soft);color:var(--green-dark)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </span>
+            <h3>Ingresos recurrentes</h3>
+            <p>El cobro por tokens usados genera ingresos estables y escalables a medida que crece tu cartera.</p>
+          </div>
+          <div class="benefit-card reveal reveal-delay-2">
+            <span class="b-icon" style="background:var(--orange-soft);color:var(--orange-dark)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <h3>Marca y herramientas oficiales</h3>
+            <p>Usa la marca D3Apps, los materiales comerciales y las herramientas listas para operar.</p>
+          </div>
+          <div class="benefit-card reveal">
+            <span class="b-icon" style="background:#ede9fe;color:#6d28d9">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2z"/></svg>
+            </span>
+            <h3>Entrenamiento completo</h3>
+            <p>Formación en producto, ventas e implementación para que tu equipo opere con confianza.</p>
+          </div>
+          <div class="benefit-card reveal reveal-delay-1">
+            <span class="b-icon" style="background:#e0f2fe;color:#0284c7">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </span>
+            <h3>Acompañamiento directo</h3>
+            <p>Soporte cercano del equipo central en cada implementación y durante toda la operación.</p>
+          </div>
+          <div class="benefit-card reveal reveal-delay-2">
+            <span class="b-icon" style="background:#fef3c7;color:#b45309">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <h3>Foco en tu región</h3>
+            <p>Construye presencia y confianza local ofreciendo una solución cercana a las empresas de tu zona.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= FRANQUICIAS ACTUALES ======================= -->
+    <section class="franchise-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Franquicias actuales</span>
+          <h2 class="section-title">Red D3Apps <span class="accent">en tu región</span></h2>
+          <p class="section-desc">Conoce a las franquicias que ya llevan el ecosistema D3Apps a las empresas de su zona.</p>
+        </div>
+
+        <div class="franchise-grid">
+          <div class="franchise-card reveal">
+            <div class="franchise-logo">T</div>
+            <span class="f-role">Franquicia oficial</span>
+            <h3>Termilago</h3>
+            <p>
+              Lleva el ecosistema D3Apps a las empresas de su región con acompañamiento cercano en implementación,
+              entrenamiento y soporte.
+            </p>
+            <div class="franchise-actions">
+              <a href="https://wa.me/573144795868" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">Contactar por WhatsApp</a>
+              <a href="mailto:contacto@d3-apps.com" class="btn btn-secondary btn-sm">Enviar correo</a>
+            </div>
+          </div>
+
+          <div class="franchise-card reveal reveal-delay-1">
+            <div class="franchise-logo f2">M</div>
+            <span class="f-role">Franquicia oficial</span>
+            <h3>Macrsas</h3>
+            <p>
+              Impulsa la transformación digital de negocios locales con los productos de gestión e indicadores
+              D3Apps en su zona de influencia.
+            </p>
+            <div class="franchise-actions">
+              <a href="https://wa.me/573144795868" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">Contactar por WhatsApp</a>
+              <a href="mailto:contacto@d3-apps.com" class="btn btn-secondary btn-sm">Enviar correo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= CONTACTO FRANQUICIA ======================= -->
+    <section class="demo-section" id="contacto">
+      <div class="container">
+        <div class="franchise-cta reveal">
+          <div class="demo-layout">
+            <div class="demo-info">
+              <span class="section-label" style="margin-bottom:0.6rem">Conviértete en franquicia</span>
+              <h3>¿Quieres ser una franquicia D3Apps?</h3>
+              <p>
+                Expande el modelo en tu ciudad o región. Te ofrecemos el software, el entrenamiento y el
+                acompañamiento para que empieces a operar.
+              </p>
+              <div class="demo-points">
+                <div class="demo-point">
+                  <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                  <span>Modelo SaaS con cobro por tokens.</span>
+                </div>
+                <div class="demo-point">
+                  <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                  <span>Entrenamiento y soporte del equipo D3Apps.</span>
+                </div>
+                <div class="demo-point">
+                  <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                  <span>Marca y herramientas listas para operar.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="demo-card">
+              <h3>Contacta para ser franquicia</h3>
+              <p>Cuéntanos sobre ti, tu región y por qué quieres sumarte al modelo.</p>
+              <form class="demo-form" novalidate>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="fr-nombre">Nombre</label>
+                    <input class="input-field" type="text" id="fr-nombre" placeholder="Tu nombre" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="fr-empresa">Empresa / Organización</label>
+                    <input class="input-field" type="text" id="fr-empresa" placeholder="Nombre de tu empresa">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="fr-ciudad">Ciudad / Región</label>
+                    <input class="input-field" type="text" id="fr-ciudad" placeholder="Ej. Medellín, Colombia">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="fr-telefono">Teléfono / WhatsApp</label>
+                    <input class="input-field" type="tel" id="fr-telefono" placeholder="+57 314 479 5868">
+                  </div>
+                  <div class="form-group full">
+                    <label class="form-label" for="fr-email">Correo electrónico</label>
+                    <input class="input-field" type="email" id="fr-email" placeholder="tu@empresa.com" required>
+                  </div>
+                  <div class="form-group full">
+                    <label class="form-label" for="fr-mensaje">Cuéntanos sobre tu interés</label>
+                    <textarea class="input-field" id="fr-mensaje" placeholder="Experiencia, mercado, objetivos..."></textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Quiero convertirme en franquicia</button>
+                <div class="form-success">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span>¡Gracias! Tu solicitud fue recibida. El equipo de franquicias te contactará muy pronto.</span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= CTA ======================= -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-band reveal">
+          <h2>Empieza a tomar decisiones con información real.</h2>
+          <p>Agenda tu diagnóstico gratuito o habla directamente con un asesor.</p>
+          <div class="cta-actions">
+            <a href="index.html#contacto" class="btn btn-white btn-lg">Solicitar una demostración</a>
+            <a href="https://wa.me/573144795868" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">Hablar con un asesor</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================= FOOTER ======================= -->
+  <div id="site-footer"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

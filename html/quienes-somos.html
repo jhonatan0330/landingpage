@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('d3apps-theme');
+        if (!t) { t = 'dark'; }
+        document.documentElement.dataset.theme = t;
+      } catch (e) { document.documentElement.dataset.theme = 'dark'; }
+    })();
+  </script>
+  <title>Quiénes somos — Nuestros valores | D3Apps</title>
+  <meta name="description"
+    content="Conoce a D3Apps: quiénes somos, nuestra misión y los valores que guían cómo trabajamos: verdad, agradecimiento y respeto.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icons/dark_264x264.png">
+</head>
+
+<body>
+
+  <!-- ======================= HEADER ======================= -->
+  <header id="site-header"></header>
+
+  <main>
+
+    <!-- ======================= PRODUCT HERO ======================= -->
+    <section class="product-hero" id="nosotros">
+      <div class="container">
+        <nav class="breadcrumb reveal">
+          <a href="index.html">Inicio</a>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          <span>Quiénes somos</span>
+        </nav>
+
+        <div class="product-hero-grid">
+          <div class="product-hero-copy">
+            <div class="product-title-row reveal reveal-delay-1">
+              <span class="badge" style="background:var(--primary-soft);color:var(--primary)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+              </span>
+              <h1>Quiénes somos</h1>
+            </div>
+            <p class="lead reveal reveal-delay-2">
+              Somos un equipo que cree en tomar decisiones con información real. Construimos aplicaciones
+              inteligentes que convierten los datos de tu operación en indicadores claros y accionables,
+              para que administres mejor tu empresa.
+            </p>
+            <div class="hero-actions reveal reveal-delay-3">
+              <a href="index.html#contacto" class="btn btn-primary btn-lg">Solicitar una demostración</a>
+            </div>
+            <div class="product-meta reveal reveal-delay-4">
+              <span class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                Decisiones con información real
+              </span>
+              <span class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Personas que crean tecnología
+              </span>
+              <span class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+                Empresa con enfoque local
+              </span>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal reveal-delay-2">
+            <div class="glow"></div>
+            <div class="dashboard">
+              <div class="dashboard-bar">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="url">portal.d3-apps.com</span>
+              </div>
+              <div class="dashboard-body">
+                <div class="dashboard-main">
+                  <div class="kpis">
+                    <div class="kpi">
+                      <div class="kpi-label">Indicadores activos</div>
+                      <div class="kpi-value">120+</div>
+                      <span class="kpi-trend up">▲ en tu operación</span>
+                    </div>
+                    <div class="kpi">
+                      <div class="kpi-label">Procesos controlados</div>
+                      <div class="kpi-value">15</div>
+                      <span class="kpi-trend up">▲ día a día</span>
+                    </div>
+                  </div>
+                  <div class="chart-card">
+                    <div class="chart-title"><span>Métricas con información real</span></div>
+                    <div class="bars">
+                      <div class="bar" style="height:45%"></div>
+                      <div class="bar" style="height:62%"></div>
+                      <div class="bar" style="height:50%"></div>
+                      <div class="bar" style="height:78%"></div>
+                      <div class="bar" style="height:66%"></div>
+                      <div class="bar" style="height:88%"></div>
+                      <div class="bar" style="height:72%"></div>
+                      <div class="bar" style="height:92%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= HISTORIA / MISIÓN ======================= -->
+    <section class="about-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Nuestra historia</span>
+          <h2 class="section-title">Creamos tecnología para que <span class="accent">gestiones mejor tu empresa.</span></h2>
+          <p class="section-desc">
+            D3Apps nace con una idea simple: los datos de tu operación ya existen; lo que falta es poder verlos
+            claros y organizados para decidir con confianza. Por eso construimos aplicaciones que miden indicadores,
+            organizan procesos y acompañan a las empresas en su transformación digital, con un modelo que funciona
+            a través de franquicias locales.
+          </p>
+        </div>
+
+        <div class="mv-grid">
+          <div class="mv-card reveal">
+            <div class="a-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m2 12 3.5 3.5L9 9l3 4 3.5-6 3 2.5"/><path d="m16 21 2-2"/><path d="m20 17 1.5-1.5"/></svg>
+            </div>
+            <h3>Misión</h3>
+            <p>Convertir los datos de cada empresa en información real y accionable para que sus equipos tomen mejores decisiones todos los días.</p>
+          </div>
+          <div class="mv-card reveal reveal-delay-1">
+            <div class="a-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 3.8 4.2.6-3 3 0.7 4.2-3.8-2-3.8 2 .7-4.2-3-3 4.2-.6z"/></svg>
+            </div>
+            <h3>Visión</h3>
+            <p>Ser la plataforma de indicadores y gestión que acompaña a las empresas de habla hispana en su transformación digital, de la mano de franquicias cercanas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= VALORES ======================= -->
+    <section class="benefits-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Nuestros valores</span>
+          <h2 class="section-title">Lo que nos guía en <span class="accent">cada proyecto</span></h2>
+          <p class="section-desc">Son los principios con los que trabajamos todos los días, con nuestros clientes, nuestras franquicias y entre nosotros.</p>
+        </div>
+
+        <div class="about-cards">
+          <div class="about-card reveal reveal-delay-1">
+            <div class="a-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M12 3l7.4 2.6a2 2 0 0 1 1.3 1.9V12c0 4.4-3.1 7.6-8.7 9a2 2 0 0 1-1.1 0C4.4 19.6 1.3 16.4 1.3 12V7.5a2 2 0 0 1 1.3-1.9z"/></svg>
+            </div>
+            <h3>Verdad</h3>
+            <p>Hablamos claro y mostramos los datos tal como son. Nuestros indicadores y comunicaciones se basan en información real, sin maquillar la realidad.</p>
+          </div>
+          <div class="about-card reveal reveal-delay-2">
+            <div class="a-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/></svg>
+            </div>
+            <h3>Agradecimiento</h3>
+            <p>Reconocemos a las personas que construyen D3Apps: clientes, franquicias, aliados y equipo. La gratitud guía la forma en que trabajamos y crecemos juntos.</p>
+          </div>
+          <div class="about-card reveal reveal-delay-3">
+            <div class="a-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3>Respeto</h3>
+            <p>Escuchamos y valoramos a cada persona y empresa. Tratamos los datos, el tiempo y las decisiones de nuestros clientes con responsabilidad y cuidado.</p>
+          </div>
+        </div>
+
+        <div class="about-quote reveal">
+          <blockquote>
+            Queremos que cada empresa, sin importar su tamaño, pueda tomar decisiones basadas en
+            <mark>información real</mark> con la compañía de personas que la respetan.
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= CTA ======================= -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-band reveal">
+          <h2>Empieza a tomar decisiones con información real.</h2>
+          <p>Agenda tu diagnóstico gratuito o habla directamente con un asesor.</p>
+          <div class="cta-actions">
+            <a href="index.html#contacto" class="btn btn-white btn-lg">Solicitar una demostración</a>
+            <a href="https://wa.me/573144795868" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">Hablar con un asesor</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================= FOOTER ======================= -->
+  <div id="site-footer"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

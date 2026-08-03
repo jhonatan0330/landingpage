@@ -4,300 +4,558 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>D3Apps — Construimos software que realmente funciona</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('d3apps-theme');
+        if (!t) { t = 'dark'; }
+        document.documentElement.dataset.theme = t;
+      } catch (e) { document.documentElement.dataset.theme = 'dark'; }
+    })();
+  </script>
+  <title>D3Apps — Conoce el estado real de tu negocio</title>
   <meta name="description"
-    content="Portal oficial de D3Apps. Construimos soluciones de software a medida, impulsando la tecnología con propósito, sostenibilidad y formación local.">
+    content="D3Apps crea aplicaciones inteligentes para medir indicadores, organizar procesos y tomar decisiones basadas en información real. Ventas, contabilidad, logística, transporte, proyectos y más.">
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icons/dark_264x264.png">
 </head>
 
-<body>
+<body id="inicio">
 
-  <!-- Dynamic Particle and Grid Canvas Background -->
-  <canvas id="background-canvas"></canvas>
+  <!-- ======================= HEADER ======================= -->
+  <header id="site-header"></header>
 
-  <!-- Navigation Header -->
-  <header>
-    <div class="nav-container">
-      <a href="#" class="brand" id="nav-brand-link">
-        <img class="brand-icon" src="icons/light_d3_182x182.png" alt="D3Apps Logo">
-        <span>D3Apps</span>
-      </a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="#hero">Inicio</a></li>
-          <li><a href="#portal">Portal</a></li>
-          <li><a href="#compromiso">Compromiso</a></li>
-        </ul>
-      </nav>
-      <a href="#portal" class="nav-btn" id="nav-portal-btn">Acceder al Portal</a>
-    </div>
-  </header>
-
-  <!-- Main Content Wrapper -->
   <main>
 
-    <!-- SECTION 1.5: FULL-WIDTH VIDEO BANNER -->
-    <section class="video-banner" id="showreel" aria-label="D3Apps Showreel">
-      <div class="video-banner-inner">
-        <video class="video-banner-player" id="showreel-video" autoplay muted playsinline>
-          <source src="icons/D3Apps_logo_animation_data_design_202606181210.mp4" type="video/mp4">
-        </video>
-        <!-- Gradient overlays for seamless blending with dark page -->
-        <div class="video-banner-fade video-banner-fade--top"></div>
-        <div class="video-banner-fade video-banner-fade--bottom"></div>
-      </div>
-    </section>
-
-    <!-- SECTION 1: HERO SECTION -->
+    <!-- ======================= HERO ======================= -->
     <section class="hero" id="hero">
-      <!-- Static logo (PNG)
-      <div class="hero-logo-container" id="hero-logo-container">
-        <img class="hero-logo" src="icons/light_d3_182x182.png" alt="D3Apps Logo">
-      </div>
-      -->
+      <!-- Dynamic particle and grid canvas background -->
+      <canvas id="background-canvas"></canvas>
 
-      <!-- Word-by-word animated headline 
-      <h1 class="hero-headline" id="animated-headline">
-        Construimos software que realmente funciona
-      </h1>-->
+      <div class="container">
+        <span class="hero-badge reveal"><span class="dot"></span> Análisis de datos · Inteligencia de negocio</span>
 
-      <p class="hero-tagline">
-        Soluciones robustas, escalables e intuitivas diseñadas para resolver desafíos reales del mañana.
-      </p>
+            <h1 class="reveal reveal-delay-1">¿Realmente conoces el <span class="accent">estado de tu negocio</span>?</h1>
 
-      <div class="hero-actions">
-        <a href="#portal" class="btn-primary">Explorar Portal</a>
-        <a href="#compromiso" class="btn-secondary">Nuestro Compromiso</a>
-      </div>
-    </section>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            
+            <p class="hero-sub reveal reveal-delay-2">
+              Convertimos los datos de tu empresa en información clara para que tomes decisiones con total confianza.
+            </p>
 
-
-
-    <!-- SECTION 2: PORTAL / LOGIN & REGISTRO -->
-    <section id="portal">
-      <div class="section-header">
-        <span class="section-label">Plataforma</span>
-        <h2 class="section-title">Portal de Clientes y Desarrolladores</h2>
-      </div>
-
-      <div class="portal-layout">
-        <div class="portal-card" id="portal-modal-card">
-          <!-- Success feedback banner -->
-          <div class="form-notification" id="form-success-banner">
-            <!-- Checkmark SVG -->
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            <span id="form-success-message">¡Acceso concedido exitosamente!</span>
-          </div>
-
-          <!-- Tabs header -->
-          <div class="portal-tabs">
-            <button class="tab-btn active" id="tab-login" data-tab="login">Ingresar</button>
-            <button class="tab-btn" id="tab-register" data-tab="register">Registrarse</button>
-          </div>
-
-          <!-- Interactive Form -->
-          <form class="portal-form" id="portal-auth-form" onsubmit="return false;">
-            <!-- Name (Only shown in registration) -->
-            <div class="form-group hidden" id="group-name">
-              <label class="form-label" for="reg-name">Nombre Completo</label>
-              <div class="input-wrapper">
-                <input class="input-field" type="text" id="reg-name" placeholder="Ej. Juan Pérez">
+            <div class="hero-questions reveal reveal-delay-2">
+              <div class="hero-photo">
+                <img class="hero-photo-img" src="icons/manager.png" alt="Gerente D3Apps revisando indicadores de su negocio">
+              </div>
+              <div class="hero-question-list">
+                <div class="hero-question">
+                  <span class="q-icon q-icon--blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                  </span>
+                  <span>¿Conoces la información del pasado?</span>
+                </div>
+                <div class="hero-question">
+                  <span class="q-icon q-icon--green">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                  </span>
+                  <span>¿Sabes cómo estás en el presente?</span>
+                </div>
+                <div class="hero-question">
+                  <span class="q-icon q-icon--orange">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                  </span>
+                  <span>¿Tienes una proyección del futuro?</span>
+                </div>
               </div>
             </div>
 
-            <!-- Email -->
-            <div class="form-group" id="group-email">
-              <label class="form-label" for="auth-email">Correo Electrónico</label>
-              <div class="input-wrapper">
-                <input class="input-field" type="email" id="auth-email" placeholder="ejemplo@d3apps.com" required>
-              </div>
-            </div>
-
-            <!-- Password -->
-            <div class="form-group" id="group-password">
-              <label class="form-label" for="auth-password">Contraseña</label>
-              <div class="input-wrapper">
-                <input class="input-field" type="password" id="auth-password" placeholder="••••••••" required>
-              </div>
-            </div>
-
-            <!-- Confirm Password (Only shown in registration) -->
-            <div class="form-group hidden" id="group-confirm">
-              <label class="form-label" for="auth-confirm">Confirmar Contraseña</label>
-              <div class="input-wrapper">
-                <input class="input-field" type="password" id="auth-confirm" placeholder="••••••••">
-              </div>
-            </div>
-
-            <!-- Options (Remember me / Forgot password) -->
-            <div class="form-options" id="auth-options">
-              <label class="remember-me">
-                <input type="checkbox" id="auth-remember">
-                <span>Recordarme</span>
-              </label>
-              <a href="#" class="forgot-password" id="forgot-pass-btn">¿Olvidaste tu contraseña?</a>
-            </div>
-
-            <!-- Main Button -->
-            <button type="submit" class="btn-form-submit" id="form-submit-btn">Ingresar</button>
-          </form>
-
-          <div class="form-footer">
-            <span id="footer-text">¿No tienes cuenta aún?</span>
-            <a class="form-footer-link" id="toggle-form-link" data-target="register">Regístrate</a>
           </div>
 
-          <!-- Divider -->
-          <div class="auth-divider" aria-hidden="true">
-            <span class="auth-divider-line"></span>
-            <span class="auth-divider-text">o continúa con</span>
-            <span class="auth-divider-line"></span>
-          </div>
+          <!-- Dashboard visual -->
+          <div class="hero-visual reveal reveal-delay-2">
+            <div class="glow"></div>
+            
+            <div class="hero-actions reveal reveal-delay-3">
+              <a href="#contacto" class="btn btn-primary btn-lg">Quiero empezar, una guía no me quedaria mal</a>
+            </div>
 
-          <!-- Google Sign-in Button -->
-          <button type="button" class="btn-google" id="btn-google-auth" aria-label="Autenticar con Google">
-            <!-- Official Google G logo SVG -->
-            <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-              <path fill="none" d="M0 0h48v48H0z"/>
-            </svg>
-            <span>Autenticar con Google</span>
-          </button>
+            <div class="dashboard">
+              <div class="dashboard-bar">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="url">portal.d3-apps.com/dashboard</span>
+              </div>
+              <video class="dashboard-video" autoplay muted loop playsinline>
+                <source src="icons/D3Apps_logo_animation_data_design_202606181210.mp4" type="video/mp4">
+              </video>
+            </div>
+
+            <div class="hero-actions reveal reveal-delay-3">
+              <a href="https://portal.d3-apps.com" class="btn btn-secondary btn-lg">Ingresar al portal d3apps</a>
+            </div>
+
+            <div class="hero-trust reveal reveal-delay-4">
+              <div class="avatars">
+                <span style="background:#2563eb">V</span>
+                <span style="background:#10b981">C</span>
+                <span style="background:#f97316">L</span>
+                <span style="background:#6366f1">T</span>
+              </div>
+              <span>Soluciones usadas por empresas de ventas, logística, transporte y más.</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 3: SOCIAL COMMITMENT ("Tecnología con propósito") -->
-    <section id="compromiso">
-      <div class="section-header">
-        <span class="section-label">Impacto social</span>
-        <h2 class="section-title">Tecnología con propósito</h2>
-      </div>
+    <!-- ======================= ACERCA / DUDAS ======================= -->
+    <section class="about-section" id="nosotros">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">La respuesta</span>
+          <h2 class="section-title">Si tienes dudas en alguna de estas preguntas, <span class="accent">estás en el lugar correcto.</span></h2>
+        </div>
 
-      <div class="social-layout">
-        <!-- 3 Side-by-side cards with hover blue glow -->
-        <div class="social-cards-grid">
-          <div class="social-cards-row">
-
-            <!-- Card 1: Seedling -->
-            <div class="social-card" id="card-local">
-              <div class="social-icon-wrapper">
-                <!-- Seedling Icon SVG -->
-                <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22v-9" />
-                  <path d="M12 13c-3-3-6-3-6 0s3 3 6 0" />
-                  <path d="M12 13c3-3 6-3 6 0s-3 3-6 0" />
-                  <path d="M12 11c1.5-1.5 3-3.5 3-6s-2-2-3 0" />
-                  <path d="M12 11c-1.5-1.5-3-3.5-3-6s2-2 3 0" />
-                </svg>
-              </div>
-              <h3 class="social-card-title">Apoyo Local</h3>
-              <p class="social-card-desc">
-                Invertimos en talento local a través de mentorías, patrocinios de eventos tecnológicos y becas
-                académicas.
-              </p>
+        <div class="about-cards">
+          <div class="about-card reveal reveal-delay-1">
+            <div class="a-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
             </div>
-
-            <!-- Card 2: Open Book -->
-            <div class="social-card" id="card-training">
-              <div class="social-icon-wrapper">
-                <!-- Open Book Icon SVG -->
-                <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-                </svg>
-              </div>
-              <h3 class="social-card-title">Formación</h3>
-              <p class="social-card-desc">
-                Creamos academias de desarrollo de software gratuitas, capacitando a la próxima generación de ingenieros
-                en América Latina.
-              </p>
+            <h3>d1 Datos</h3>
+            <p>Organiza tareas, responsables y tiempos para mantener el control total de tu operación diaria.</p>
+          </div>
+          <div class="about-card reveal reveal-delay-2">
+            <div class="a-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
             </div>
-
-            <!-- Card 3: Leaf -->
-            <div class="social-card" id="card-sustainability">
-              <div class="social-icon-wrapper">
-                <!-- Leaf Icon SVG -->
-                <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 9.8a7 7 0 0 1-9 8.2Z" />
-                  <path d="M9 22v-4" />
-                </svg>
-              </div>
-              <h3 class="social-card-title">Sostenibilidad</h3>
-              <p class="social-card-desc">
-                Desarrollamos código eco-eficiente que minimiza el consumo en servidores, y neutralizamos el 100% de
-                nuestra huella de carbono.
-              </p>
+            <h3>d2 Diagnostico</h3>
+            <p>Creemos soluciones que convierten los datos de tu operación en indicadores claros y accionables.</p>
+          </div>
+          <div class="about-card reveal reveal-delay-3">
+            <div class="a-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
-
+            <h3>d3 Decisiones</h3>
+            <p>Nuestros sistemas transforman datos en indicadores claros para que administres mejor tu empresa.</p>
           </div>
         </div>
 
-        <!-- Metrics Panel (Space Mono font numbers) -->
-        <div class="metrics-panel" id="metrics-container">
-
-          <!-- Metric 1 -->
-          <div class="metric-item">
-            <div class="metric-num">
-              <span class="counter-val" data-target="48">0</span>
-              <span class="metric-suffix">+</span>
-            </div>
-            <div class="metric-label">Proyectos</div>
-          </div>
-
-          <!-- Metric 2 -->
-          <div class="metric-item">
-            <div class="metric-num">
-              <span class="counter-val" data-target="99" data-decimals="1">0</span>
-              <span class="metric-suffix">%</span>
-            </div>
-            <div class="metric-label">Satisfacción</div>
-          </div>
-
-          <!-- Metric 3 -->
-          <div class="metric-item">
-            <div class="metric-num">
-              <span class="counter-val" data-target="10">0</span>
-              <span class="metric-suffix">K+</span>
-            </div>
-            <div class="metric-label">Horas Formación</div>
-          </div>
-
-          <!-- Metric 4 -->
-          <div class="metric-item">
-            <div class="metric-num">
-              <span class="counter-val" data-target="2.4" data-decimals="1">0</span>
-              <span class="metric-suffix">t</span>
-            </div>
-            <div class="metric-label">CO₂ Mitigado</div>
-          </div>
-
+        <div class="about-quote reveal">
+          <blockquote>
+            En <mark>D3Apps</mark> nos enfocamos en crear soluciones que te permitan conocer tus métricas, controlar tus
+            procesos y tomar decisiones basadas en información real.
+          </blockquote>
+          <p class="section-desc" style="max-width:640px;margin:0 auto">
+            Nuestros sistemas transforman datos en indicadores claros para que puedas administrar mejor tu empresa.
+          </p>
         </div>
       </div>
     </section>
+
+    <!-- ======================= CTA ======================= -->
+    <section>
+      <div class="container">
+        <div class="cta-band reveal">
+          <h2>Empieza a tomar decisiones con información real.</h2>
+          <p>Agenda una demostración o conversa con un asesor. Te ayudamos a elegir la solución perfecta.</p>
+          <div class="cta-actions">
+            <a href="#contacto" class="btn btn-white btn-lg">Solicitar una demostración</a>
+            <a href="https://wa.me/573144795868" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">Hablar con un asesor</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= SOLUCIONES ======================= -->
+    <section class="options-section" id="soluciones">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Soluciones</span>
+          <h2 class="section-title">¿Qué quieres empezar a gestionar?</h2>
+          <p class="section-desc">Elige el área que necesitas poner bajo control y empieza hoy mismo.</p>
+        </div>
+
+        <div class="options-grid">
+          <!-- El dinero -->
+          <a href="d3-contabilidad-colombia.html" class="option-card option-card--blue reveal">
+            <div class="option-icon option-icon--blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><circle cx="12" cy="15" r="2.5"/></svg>
+            </div>
+            <h3>💰 El dinero</h3>
+            <p>Controla ingresos, gastos, rentabilidad e indicadores financieros.</p>
+            <span class="option-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+
+          <!-- Tu tiempo -->
+          <a href="d3-proyectos.html" class="option-card option-card--green reveal reveal-delay-1">
+            <div class="option-icon option-icon--green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>⏰ Tu tiempo</h3>
+            <p>Organiza tareas, tiempos de trabajo y productividad.</p>
+            <span class="option-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+
+          <!-- Tus actividades -->
+          <a href="d3-logistica.html" class="option-card option-card--orange reveal reveal-delay-2">
+            <div class="option-icon option-icon--orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3>✅ Tus actividades</h3>
+            <p>Haz seguimiento a procesos, tareas y responsables.</p>
+            <span class="option-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+
+          <!-- Por sector -->
+          <a href="#sectores" class="option-card option-card--purple reveal reveal-delay-3 sector-trigger">
+            <div class="option-icon option-icon--purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+            </div>
+            <h3>🏢 Prefiero escoger por mi sector</h3>
+            <p>Selecciona el sector al que pertenece tu empresa para conocer la solución adecuada.</p>
+            <span class="option-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= SECTORES ======================= -->
+    <section class="sectors-section" id="sectores" hidden>
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Por sector</span>
+          <h2 class="section-title">Selecciona tu sector para <span class="accent">ver la solución</span></h2>
+          <p class="section-desc">Cada sector tiene su propio conjunto de indicadores y procesos. Encuentra el tuyo.</p>
+        </div>
+
+        <div class="sectors-grid">
+          <div class="sector-card reveal">
+            <div class="s-icon" style="background:var(--primary-soft);color:var(--primary)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <h3>Sector Ventas</h3>
+            <a href="d3-ventas.html" class="btn btn-secondary btn-sm">Ver solución</a>
+          </div>
+
+          <div class="sector-card reveal reveal-delay-1">
+            <div class="s-icon" style="background:var(--green-soft);color:var(--green-dark)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            </div>
+            <h3>Sector Contable</h3>
+            <a href="d3-contabilidad-colombia.html" class="btn btn-secondary btn-sm">Ver solución</a>
+          </div>
+
+          <div class="sector-card reveal reveal-delay-2">
+            <div class="s-icon" style="background:var(--orange-soft);color:var(--orange-dark)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7h-9L7 3H2v13h20z"/><path d="M9 13v4"/><path d="M15 13v4"/></svg>
+            </div>
+            <h3>Sector Logístico</h3>
+            <a href="d3-logistica.html" class="btn btn-secondary btn-sm">Ver solución</a>
+          </div>
+
+          <div class="sector-card reveal reveal-delay-1">
+            <div class="s-icon" style="background:#ede9fe;color:#6d28d9">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35a1 1 0 0 0-.78-.38H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+            </div>
+            <h3>Sector Transporte</h3>
+            <a href="d3-transporte.html" class="btn btn-secondary btn-sm">Ver solución</a>
+          </div>
+
+          <div class="sector-card reveal reveal-delay-2">
+            <div class="s-icon" style="background:#e0f2fe;color:#0284c7">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg>
+            </div>
+            <h3>Sector Organización de Proyectos</h3>
+            <a href="d3-proyectos.html" class="btn btn-secondary btn-sm">Ver solución</a>
+          </div>
+
+          <div class="sector-card reveal reveal-delay-3">
+            <div class="s-icon" style="background:#fef3c7;color:#b45309">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            </div>
+            <h3>Sector Formación Deportiva</h3>
+            <a href="d3-formacion.html" class="btn btn-secondary btn-sm">Ver solución</a>
+          </div>
+        </div>
+
+        <p class="sectors-note reveal">¿No encuentras tu sector? <a href="#contacto" style="color:var(--primary);font-weight:600">Escríbenos</a> y lo resolvemos contigo.</p>
+      </div>
+    </section>
+
+    <!-- ======================= PRECIOS / TOKENS ======================= -->
+    <section class="pricing-section" id="precios">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Precios</span>
+          <h2 class="section-title">Paga solo por lo que usas: <span class="accent">modelo por tokens</span></h2>
+          <p class="section-desc">
+            D3Apps provee su software en modelo SaaS y cobra por tokens usados. Compra paquetes de tokens y úsalos
+            en cualquiera de nuestros productos.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <div class="price-card reveal">
+            <span class="price-badge">Starter</span>
+            <div class="price-tokens">1.000 tokens</div>
+            <div class="price-num">$180.000 <small>COP por paquete</small></div>
+            <p>Para empezar a medir tus primeras métricas con un solo producto.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1 producto D3Apps</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Reportes mensuales</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte por correo</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Hasta 3 usuarios</li>
+            </ul>
+            <a href="#contacto" class="btn btn-secondary">Comprar paquete</a>
+          </div>
+
+          <div class="price-card featured reveal reveal-delay-1">
+            <span class="price-badge">Pro</span>
+            <div class="price-tokens">5.000 tokens</div>
+            <div class="price-num">$750.000 <small>COP por paquete</small></div>
+            <p>El equilibrio ideal para equipos en crecimiento que usan varios productos.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Todos los productos D3Apps</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Reportes ilimitados</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Exportación a Excel</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte prioritario</li>
+            </ul>
+            <a href="#contacto" class="btn btn-primary">Comprar paquete</a>
+          </div>
+
+          <div class="price-card reveal reveal-delay-2">
+            <span class="price-badge">Business</span>
+            <div class="price-tokens">10.000 tokens</div>
+            <div class="price-num">$1.200.000 <small>COP por paquete</small></div>
+            <p>Para empresas que necesitan todo el poder de los indicadores y el control total.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Todo lo del plan Pro</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Alertas automáticas</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Usuarios y permisos avanzados</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Asesor dedicado</li>
+            </ul>
+            <a href="#contacto" class="btn btn-secondary">Comprar paquete</a>
+          </div>
+        </div>
+
+        <div class="token-table-wrap reveal">
+          <h3>Tabla de valores de tokens</h3>
+          <table class="token-table">
+            <thead>
+              <tr>
+                <th>Paquete</th>
+                <th>Tokens</th>
+                <th>Precio (COP)</th>
+                <th>Valor por token</th>
+                <th>Ahorro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pago por uso</td>
+                <td>1 — 999</td>
+                <td>$200</td>
+                <td>$200</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>Starter</td>
+                <td>1.000</td>
+                <td>$180.000</td>
+                <td>$180</td>
+                <td><span class="tag">10%</span></td>
+              </tr>
+              <tr class="row-featured">
+                <td>Pro</td>
+                <td>5.000</td>
+                <td>$750.000</td>
+                <td>$150</td>
+                <td><span class="tag">25%</span></td>
+              </tr>
+              <tr>
+                <td>Business</td>
+                <td>10.000</td>
+                <td>$1.200.000</td>
+                <td>$120</td>
+                <td><span class="tag">40%</span></td>
+              </tr>
+              <tr>
+                <td>Enterprise</td>
+                <td>25.000+</td>
+                <td>A medida</td>
+                <td>A medida</td>
+                <td><a href="#contacto" style="color:var(--primary);font-weight:600">Contacta</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="token-note">
+            <b>¿Cómo se usan los tokens?</b> Cada acción dentro de la plataforma (consultar un indicador, generar un
+            reporte o exportar datos) consume tokens. Los paquetes no caducan y se comparten entre todos los
+            productos D3Apps.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= FRANQUICIAS ======================= -->
+    <section class="franchise-section" id="franquicias">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Franquicias</span>
+          <h2 class="section-title">Un modelo pensado para <span class="accent">crecer juntos</span></h2>
+          <p class="section-desc">
+            D3Apps se mueve bajo un modelo de franquicias: la empresa provee el software en SaaS y cobra por tokens
+            usados, mientras las franquicias llevan la solución a su región.
+          </p>
+        </div>
+
+        <div class="franchise-grid">
+          <div class="franchise-card reveal">
+            <div class="franchise-logo">T</div>
+            <span class="f-role">Franquicia oficial</span>
+            <h3>Termilago</h3>
+            <p>
+              Lleva el ecosistema D3Apps a las empresas de su región con acompañamiento cercano en implementación,
+              entrenamiento y soporte.
+            </p>
+            <div class="franchise-actions">
+              <a href="https://wa.me/573144795868" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">Contactar por WhatsApp</a>
+              <a href="mailto:contacto@d3-apps.com" class="btn btn-secondary btn-sm">Enviar correo</a>
+            </div>
+          </div>
+
+          <div class="franchise-card reveal reveal-delay-1">
+            <div class="franchise-logo f2">M</div>
+            <span class="f-role">Franquicia oficial</span>
+            <h3>Macrsas</h3>
+            <p>
+              Impulsa la transformación digital de negocios locales con los productos de gestión e indicadores
+              D3Apps en su zona de influencia.
+            </p>
+            <div class="franchise-actions">
+              <a href="https://wa.me/573144795868" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">Contactar por WhatsApp</a>
+              <a href="mailto:contacto@d3-apps.com" class="btn btn-secondary btn-sm">Enviar correo</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="franchise-cta reveal">
+          <div class="section-header reveal">
+            <span class="section-label">Conviértete en franquicia</span>
+            <h3 class="section-title" style="font-size:1.6rem;margin:0.8rem 0 1rem">¿Quieres ser una franquicia D3Apps?</h3>
+            <p class="section-desc" style="max-width:640px;margin:0 auto 1.6rem">
+              Expande el modelo en tu ciudad o región: software listo, entrenamiento y acompañamiento del equipo
+              central. Conoce los beneficios y contáctanos para sumarte.
+            </p>
+            <div class="hero-actions" style="justify-content:center">
+              <a href="franquicias.html" class="btn btn-primary btn-lg">Conviértete en franquicia</a>
+              <a href="https://wa.me/573144795868" target="_blank" rel="noopener" class="btn btn-secondary btn-lg">Hablar con el equipo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= DEMO / CONTACTO ======================= -->
+    <section class="demo-section" id="contacto">
+      <div class="container">
+        <div class="demo-layout">
+          <div class="demo-info reveal">
+            <span class="section-label" style="margin-bottom:0.6rem">Diagnóstico gratuito</span>
+            <h2>Un pequeño diagnóstico para recomendarte la mejor solución.</h2>
+            <p>
+              Cuéntanos cómo gestionas tu información hoy. Analizamos tu situación y te proponemos el producto
+              D3Apps ideal para tus objetivos.
+            </p>
+            <div class="demo-points">
+              <div class="demo-point">
+                <span class="check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span><b>Sin costo</b> y sin compromiso.</span>
+              </div>
+              <div class="demo-point">
+                <span class="check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span>Respuesta de un <b>asesor en menos de 24h</b>.</span>
+              </div>
+              <div class="demo-point">
+                <span class="check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span>Recomendación personalizada según tu sector.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo-card reveal reveal-delay-1">
+            <h3>Solicitar una demostración</h3>
+            <p>Completa el formulario y recibe una demostración adaptada a tu negocio.</p>
+
+            <form class="demo-form" id="demo-form" novalidate>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="df-name">Nombre</label>
+                  <input class="input-field" type="text" id="df-name" placeholder="Tu nombre" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="df-phone">Teléfono / WhatsApp</label>
+                  <input class="input-field" type="tel" id="df-phone" placeholder="+57 314 479 5868" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="df-sector">Sector</label>
+                  <select class="input-field" id="df-sector">
+                    <option value="ventas">Ventas</option>
+                    <option value="contable">Contable</option>
+                    <option value="logistica">Logístico</option>
+                    <option value="transporte">Transporte</option>
+                    <option value="proyectos">Organización de Proyectos</option>
+                    <option value="formacion">Formación Deportiva</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="df-tool">¿Qué herramienta usas hoy?</label>
+                  <select class="input-field" id="df-tool">
+                    <option value="excel">Excel</option>
+                    <option value="software">Software especializado</option>
+                    <option value="papel">Papel / cuadernos</option>
+                    <option value="nada">Nada por ahora</option>
+                  </select>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label" for="df-message">Cuéntanos tu mayor reto</label>
+                  <textarea class="input-field" id="df-message" placeholder="Ej. No conozco la rentabilidad real de mi negocio ni los indicadores de ventas..."></textarea>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg">Guardar y enviar por WhatsApp</button>
+              <p class="form-note">Al guardar serás llevado a WhatsApp con tu diagnóstico listo para enviar.</p>
+
+              <div class="form-success" id="demo-success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                <span>¡Gracias! Recibimos tu información. Un asesor te contactará muy pronto.</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
 
   </main>
 
-  <!-- Footer Brand Credentials -->
-  <footer>
-    <div class="main footer-layout">
-      <p>&copy; 2026 D3Apps Inc. Todos los derechos reservados. Tecnología con propósito.</p>
-      <ul class="footer-links">
-        <li><a href="#">Privacidad</a></li>
-        <li><a href="#">Términos</a></li>
-        <li><a href="#">Soporte</a></li>
-      </ul>
-    </div>
-  </footer>
+  <!-- ======================= FOOTER ======================= -->
+  <div id="site-footer"></div>
 
   <script src="app.js"></script>
 </body>

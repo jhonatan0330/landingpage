@@ -1,174 +1,344 @@
-// D3Apps Landing Page Interactive Script
-
+// D3Apps — Landing Page Script
 document.addEventListener('DOMContentLoaded', () => {
-  initHeadlineAnimation();
-  initCanvasBackground();
-  initPortalTabs();
-  initMetricsCounter();
+  initHeader();
+  initHeaderScroll();
+  initMobileNav();
   initSmoothScroll();
-  initGoogleAuth();
+  initRevealAnimations();
+  initSectorReveal();
+  initFooter();
+  initThemeToggle();
+  initCanvasBackground();
+  initHeroQuestions();
+  initDemoForms();
 });
 
 /* =========================================================================
-   1. Word-by-Word Headline Animation
+   1. Shared header component (single source, injected synchronously)
    ========================================================================= */
-function initHeadlineAnimation() {
-  const headline = document.getElementById('animated-headline');
-  if (!headline) return;
+const HEADER_HTML = `
+<header id="site-header">
+  <div class="nav-container">
+    <a href="index.html" class="brand">
+      <img class="brand-icon" src="icons/dark_264x264.png" alt="D3Apps Logo">
+      <span>D3Apps</span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html#inicio">Inicio</a></li>
+        <li><a href="quienes-somos.html">Nosotros</a></li>
+        <li><a href="index.html#soluciones">Soluciones</a></li>
+        <li><a href="index.html#precios">Precios</a></li>
+        <li><a href="franquicias.html">Franquicias</a></li>
+        <li><a href="index.html#sectores">Sectores</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>
+      </button>
+      <a href="https://portal.d3-apps.com" class="btn btn-primary btn-sm nav-btn">Ingresar al portal</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html#inicio">Inicio</a>
+    <a href="quienes-somos.html">Nosotros</a>
+    <a href="index.html#soluciones">Soluciones</a>
+    <a href="index.html#precios">Precios</a>
+    <a href="franquicias.html">Franquicias</a>
+    <a href="index.html#sectores">Sectores</a>
+    <a href="index.html#contacto">Contacto</a>
+    <a href="https://portal.d3-apps.com" class="btn btn-primary">Ingresar al portal</a>
+  </div>
+</header>
+`;
 
-  const text = headline.textContent.trim();
-  const words = text.split(/\s+/);
-  
-  // Clear original text and replace with spans
-  headline.innerHTML = '';
-  
-  const spans = words.map((word, index) => {
-    const span = document.createElement('span');
-    span.className = 'headline-word';
-    span.textContent = word;
-    // Add extra margin for spacing
-    headline.appendChild(span);
-    // Add space after word (except the last one)
-    if (index < words.length - 1) {
-      headline.appendChild(document.createTextNode(' '));
+function initHeader() {
+  const host = document.getElementById('site-header');
+  if (!host) return;
+
+  host.innerHTML = HEADER_HTML;
+
+  // En el index, los enlaces de sección deben funcionar sin recargar la página.
+  const isIndex =
+    !/\.html$/i.test(window.location.pathname) ||
+    /index\.html$/i.test(window.location.pathname);
+
+  if (isIndex) {
+    host.querySelectorAll('a[href^="index.html"]').forEach((a) => {
+      const href = a.getAttribute('href');
+      if (href === 'index.html') {
+        a.setAttribute('href', '#inicio');
+      } else if (href.indexOf('index.html#') === 0) {
+        a.setAttribute('href', href.replace('index.html', ''));
+      }
+    });
+  }
+
+  // Marca la página actual en el nav desktop.
+  const basename = window.location.pathname.split('/').pop().toLowerCase();
+  host.querySelectorAll('.nav-links a').forEach((a) => {
+    if (a.getAttribute('href') === basename) {
+      a.classList.add('active');
     }
-    return span;
   });
 
-  // Fade in word-by-word with delay
-  spans.forEach((span, index) => {
-    setTimeout(() => {
-      span.classList.add('visible');
-    }, 150 + index * 100);
+  bindAnchorSmoothScroll(host);
+}
+
+/* =========================================================================
+   1. Header shadow on scroll
+   ========================================================================= */
+function initHeaderScroll() {
+  const header = document.getElementById('site-header');
+  if (!header) return;
+  const onScroll = () => {
+    header.classList.toggle('scrolled', window.scrollY > 10);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+/* =========================================================================
+   2. Mobile navigation
+   ========================================================================= */
+function initMobileNav() {
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+  if (!toggle || !menu) return;
+
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('active');
+    menu.classList.toggle('open');
+  });
+
+  menu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      toggle.classList.remove('active');
+      menu.classList.remove('open');
+    });
   });
 }
 
 /* =========================================================================
-   2. Canvas Particles & Electric Grid Background
+   3. Smooth scrolling with sticky-header offset
    ========================================================================= */
-function initCanvasBackground() {
-  const canvas = document.getElementById('background-canvas');
+function bindAnchorSmoothScroll(scope) {
+  const links = (scope || document).querySelectorAll('a[href^="#"]');
+  links.forEach((link) => {
+    if (link.dataset.smoothBound) return;
+    link.dataset.smoothBound = '1';
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href');
+      if (targetId === '#') return;
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+
+function initSmoothScroll() {
+  bindAnchorSmoothScroll(document);
+}
+
+/* =========================================================================
+   4. Reveal-on-scroll animations
+   ========================================================================= */
+function initRevealAnimations() {
+  const elements = document.querySelectorAll('.reveal');
+  if (elements.length === 0) return;
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach((el) => el.classList.add('visible'));
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+  );
+  elements.forEach((el) => observer.observe(el));
+}
+
+/* =========================================================================
+   5. Reveal the sectors section on demand
+   ========================================================================= */
+function initSectorReveal() {
+  const sectorSection = document.getElementById('sectores');
+  if (!sectorSection) return;
+
+  const revealSectors = (e) => {
+    e.preventDefault();
+    if (sectorSection.hidden) {
+      sectorSection.hidden = false;
+      // Trigger reveal animations inside after it becomes visible
+      requestAnimationFrame(() => {
+        sectorSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+      });
+    }
+    sectorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  document.querySelectorAll('.sector-trigger, a[href="#sectores"]').forEach((el) => {
+    el.addEventListener('click', revealSectors);
+  });
+}
+
+/* =========================================================================
+   6. Theme toggle (dark / light)
+   ========================================================================= */
+function initThemeToggle() {
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+  const root = document.documentElement;
+  const storageKey = 'd3apps-theme';
+
+  const applyTheme = (theme) => {
+    root.dataset.theme = theme;
+    toggle.setAttribute('aria-label', theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+    const isDark = theme === 'dark';
+    document.querySelectorAll('header .brand-icon').forEach((img) => {
+      img.src = isDark ? 'icons/light_264x264.png' : 'icons/dark_264x264.png';
+    });
+    document.querySelectorAll('.footer-brand .brand-icon').forEach((img) => {
+      img.src = isDark ? 'icons/light_d3_182x182.png' : 'icons/dark_264x264.png';
+    });
+  };
+
+  applyTheme(root.dataset.theme === 'dark' ? 'dark' : 'light');
+
+  toggle.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem(storageKey, next); } catch (e) {}
+    applyTheme(next);
+  });
+}
+
+/* =========================================================================
+   7. Animated particle & grid canvas background (hero + footer)
+   ========================================================================= */
+function initParticleCanvas(canvas, host, opts) {
   if (!canvas) return;
-
   const ctx = canvas.getContext('2d');
-  let animationFrameId;
+  const options = opts || {};
 
-  // Particle configuration
-  const particles = [];
-  const maxParticles = 80;
-  const connectionDistance = 110;
+  const colorDark = options.colorDark || options.color || { r: 96, g: 165, b: 250 };
+  const colorLight = options.colorLight || options.color || colorDark;
+  const themeAware = !!options.themeAware;
+  const getColor = () =>
+    themeAware
+      ? (document.documentElement.dataset.theme === 'dark' ? colorDark : colorLight)
+      : (options.color || colorDark);
+
+  let color = getColor();
+
+  const maxParticles = options.maxParticles || 70;
+  const particleAlpha = options.particleAlpha != null ? options.particleAlpha : 0.25;
+  const connectionAlpha = options.connectionAlpha != null ? options.connectionAlpha : 0.09;
+  const mouseConnectionAlpha = options.mouseConnectionAlpha != null ? options.mouseConnectionAlpha : 0.14;
+  const connectionDistance = 120;
   const mouseConnectionDistance = 180;
-  
-  // Mouse state
+  const drawGrid = options.grid !== false;
+
+  const particles = [];
   const mouse = {
     x: null,
     y: null,
-    radius: 120, // repulsion radius
+    radius: 130,
     active: false
   };
 
-  // Resize canvas to fill window
   function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const w = host ? host.offsetWidth : window.innerWidth;
+    const h = host ? host.offsetHeight : window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
   }
-  
+
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
-  // Track mouse coordinates
-  window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-    mouse.active = true;
-  });
+  if (options.mouse !== false) {
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    });
 
-  window.addEventListener('mouseleave', () => {
-    mouse.x = null;
-    mouse.y = null;
-    mouse.active = false;
-  });
+    window.addEventListener('mouseleave', () => {
+      mouse.x = null;
+      mouse.y = null;
+      mouse.active = false;
+    });
+  }
 
-  // Particle Class
   class Particle {
     constructor() {
       this.x = Math.random() * canvas.width;
       this.y = Math.random() * canvas.height;
-      this.vx = (Math.random() - 0.5) * 0.4; // subtle velocity
+      this.vx = (Math.random() - 0.5) * 0.4;
       this.vy = (Math.random() - 0.5) * 0.4;
       this.radius = Math.random() * 2 + 1;
       this.baseRadius = this.radius;
     }
 
     update() {
-      // Repel from mouse
       if (mouse.active && mouse.x !== null && mouse.y !== null) {
         const dx = this.x - mouse.x;
         const dy = this.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (dist < mouse.radius) {
           const force = (mouse.radius - dist) / mouse.radius;
           const angle = Math.atan2(dy, dx);
-          
-          // Smooth push
           this.x += Math.cos(angle) * force * 1.5;
           this.y += Math.sin(angle) * force * 1.5;
-          
-          // Make particle slightly larger / glowing near cursor
           this.radius = this.baseRadius + force * 1.5;
-        } else {
-          if (this.radius > this.baseRadius) {
-            this.radius -= 0.05;
-          }
-        }
-      } else {
-        if (this.radius > this.baseRadius) {
+        } else if (this.radius > this.baseRadius) {
           this.radius -= 0.05;
         }
+      } else if (this.radius > this.baseRadius) {
+        this.radius -= 0.05;
       }
 
-      // Move particle
       this.x += this.vx;
       this.y += this.vy;
 
-      // Bounce/Wrap boundary conditions
-      if (this.x < 0) {
-        this.x = 0;
-        this.vx *= -1;
-      } else if (this.x > canvas.width) {
-        this.x = canvas.width;
-        this.vx *= -1;
-      }
-
-      if (this.y < 0) {
-        this.y = 0;
-        this.vy *= -1;
-      } else if (this.y > canvas.height) {
-        this.y = canvas.height;
-        this.vy *= -1;
-      }
+      if (this.x < 0) { this.x = 0; this.vx *= -1; }
+      else if (this.x > canvas.width) { this.x = canvas.width; this.vx *= -1; }
+      if (this.y < 0) { this.y = 0; this.vy *= -1; }
+      else if (this.y > canvas.height) { this.y = canvas.height; this.vy *= -1; }
     }
 
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(79, 110, 247, 0.4)';
+      ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${particleAlpha})`;
       ctx.fill();
     }
   }
 
-  // Populate particles array
   for (let i = 0; i < maxParticles; i++) {
     particles.push(new Particle());
   }
 
-  // Draw lines connecting particles and mouse
   function drawConnections() {
     for (let i = 0; i < particles.length; i++) {
       const p1 = particles[i];
 
-      // Lines between particles
       for (let j = i + 1; j < particles.length; j++) {
         const p2 = particles[j];
         const dx = p1.x - p2.x;
@@ -176,28 +346,27 @@ function initCanvasBackground() {
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < connectionDistance) {
-          const alpha = (1 - dist / connectionDistance) * 0.12;
+          const alpha = (1 - dist / connectionDistance) * connectionAlpha;
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(79, 110, 247, ${alpha})`;
+          ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
           ctx.lineWidth = 0.8;
           ctx.stroke();
         }
       }
 
-      // Lines from mouse to particles
       if (mouse.active && mouse.x !== null && mouse.y !== null) {
         const dx = p1.x - mouse.x;
         const dy = p1.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < mouseConnectionDistance) {
-          const alpha = (1 - dist / mouseConnectionDistance) * 0.18;
+          const alpha = (1 - dist / mouseConnectionDistance) * mouseConnectionAlpha;
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = `rgba(79, 110, 247, ${alpha})`;
+          ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -205,260 +374,246 @@ function initCanvasBackground() {
     }
   }
 
-  // Canvas render loop
   function loop() {
+    color = getColor();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw background subtle electric grid lines (static grid as background structure)
-    ctx.strokeStyle = 'rgba(79, 110, 247, 0.015)';
-    ctx.lineWidth = 1;
-    const gridSpacing = 80;
-    
-    for (let x = 0; x < canvas.width; x += gridSpacing) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, canvas.height);
-      ctx.stroke();
-    }
-    for (let y = 0; y < canvas.height; y += gridSpacing) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(canvas.width, y);
-      ctx.stroke();
+
+    if (drawGrid) {
+      // Subtle grid background
+      ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, 0.03)`;
+      ctx.lineWidth = 1;
+      const gridSpacing = 90;
+      for (let x = 0; x < canvas.width; x += gridSpacing) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += gridSpacing) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      }
     }
 
-    // Update and draw particles
-    particles.forEach(p => {
+    particles.forEach((p) => {
       p.update();
       p.draw();
     });
 
     drawConnections();
 
-    animationFrameId = requestAnimationFrame(loop);
+    requestAnimationFrame(loop);
   }
 
-  // Start the render loop
   loop();
 }
 
-/* =========================================================================
-   3. Portal Card Login/Register Tabs
-   ========================================================================= */
-function initPortalTabs() {
-  const tabLogin = document.getElementById('tab-login');
-  const tabRegister = document.getElementById('tab-register');
-  const groupName = document.getElementById('group-name');
-  const groupConfirm = document.getElementById('group-confirm');
-  const optionsRow = document.getElementById('auth-options');
-  const submitBtn = document.getElementById('form-submit-btn');
-  const footerText = document.getElementById('footer-text');
-  const toggleLink = document.getElementById('toggle-form-link');
-  const authForm = document.getElementById('portal-auth-form');
-  const successBanner = document.getElementById('form-success-banner');
-  const successMsg = document.getElementById('form-success-message');
-
-  let currentTab = 'login'; // 'login' or 'register'
-
-  function switchTab(targetTab) {
-    if (targetTab === currentTab) return;
-    currentTab = targetTab;
-
-    // Reset validation/feedback styling
-    successBanner.style.display = 'none';
-
-    if (currentTab === 'login') {
-      // Toggle buttons states
-      tabLogin.classList.add('active');
-      tabRegister.classList.remove('active');
-      
-      // Hide name and confirm fields
-      groupName.classList.add('hidden');
-      groupConfirm.classList.add('hidden');
-      
-      // Make name input not required
-      document.getElementById('reg-name').required = false;
-      document.getElementById('auth-confirm').required = false;
-      
-      // Show login options (remember me)
-      optionsRow.style.display = 'flex';
-      
-      // Adjust texts
-      submitBtn.textContent = 'Ingresar';
-      footerText.textContent = '¿No tienes cuenta aún?';
-      toggleLink.textContent = 'Regístrate';
-      toggleLink.setAttribute('data-target', 'register');
-    } else {
-      // Toggle buttons states
-      tabLogin.classList.remove('active');
-      tabRegister.classList.add('active');
-      
-      // Show name and confirm fields
-      groupName.classList.remove('hidden');
-      groupConfirm.classList.remove('hidden');
-      
-      // Make name and confirm password required
-      document.getElementById('reg-name').required = true;
-      document.getElementById('auth-confirm').required = true;
-      
-      // Hide login options (remember me)
-      optionsRow.style.display = 'none';
-      
-      // Adjust texts
-      submitBtn.textContent = 'Registrarse';
-      footerText.textContent = '¿Ya tienes cuenta?';
-      toggleLink.textContent = 'Inicia sesión';
-      toggleLink.setAttribute('data-target', 'login');
-    }
-  }
-
-  // Tab button clicks
-  tabLogin.addEventListener('click', () => switchTab('login'));
-  tabRegister.addEventListener('click', () => switchTab('register'));
-
-  // Toggle footer link click
-  toggleLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    const target = toggleLink.getAttribute('data-target');
-    switchTab(target);
+function initCanvasBackground() {
+  const canvas = document.getElementById('background-canvas');
+  if (!canvas) return;
+  const hero = document.getElementById('hero');
+  initParticleCanvas(canvas, hero, {
+    themeAware: true,
+    colorDark: { r: 96, g: 165, b: 250 },
+    colorLight: { r: 37, g: 99, b: 235 }
   });
+}
 
-  // Handle Form Submission Mock
-  authForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Simple validation for registration password matching
-    if (currentTab === 'register') {
-      const password = document.getElementById('auth-password').value;
-      const confirm = document.getElementById('auth-confirm').value;
-      if (password !== confirm) {
-        alert('Las contraseñas no coinciden. Por favor, verifica de nuevo.');
-        return;
-      }
-    }
-
-    // Success styling feedback
-    if (currentTab === 'login') {
-      successMsg.textContent = '¡Ingreso exitoso! Redirigiendo al portal...';
-    } else {
-      successMsg.textContent = '¡Registro completo! Cuenta creada con éxito.';
-    }
-
-    successBanner.style.display = 'flex';
-    successBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-    // Reset inputs after delay
-    setTimeout(() => {
-      authForm.reset();
-      successBanner.style.display = 'none';
-    }, 4000);
+function initFooterCanvas() {
+  const canvas = document.getElementById('footer-canvas');
+  if (!canvas) return;
+  const footer = document.getElementById('site-footer');
+  initParticleCanvas(canvas, footer, {
+    themeAware: true,
+    colorDark: { r: 96, g: 165, b: 250 },
+    colorLight: { r: 37, g: 99, b: 235 },
+    maxParticles: 40,
+    particleAlpha: 0.14,
+    connectionAlpha: 0.05
   });
 }
 
 /* =========================================================================
-   4. Metrics Counter Scroll Animation
+   8. Demo / diagnostic forms (index + product pages)
    ========================================================================= */
-function initMetricsCounter() {
-  const metricsContainer = document.getElementById('metrics-container');
-  const counters = document.querySelectorAll('.counter-val');
-  if (!metricsContainer || counters.length === 0) return;
+function initDemoForms() {
+  const forms = document.querySelectorAll('.demo-form');
+  forms.forEach((form) => {
+    const successBox = form.querySelector('.form-success');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-  let hasAnimated = false;
-
-  const animateCounters = () => {
-    counters.forEach(counter => {
-      const target = parseFloat(counter.getAttribute('data-target'));
-      const decimals = parseInt(counter.getAttribute('data-decimals') || '0', 10);
-      const duration = 2000; // 2 seconds
-      const startTime = performance.now();
-
-      const updateCount = (timestamp) => {
-        const elapsed = timestamp - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing out quadratic
-        const easeProgress = progress * (2 - progress);
-        const currentVal = easeProgress * target;
-        
-        counter.textContent = currentVal.toFixed(decimals);
-
-        if (progress < 1) {
-          requestAnimationFrame(updateCount);
-        } else {
-          counter.textContent = target.toFixed(decimals);
+      // Native validation feedback (novalidate is off via class fallback)
+      const fields = form.querySelectorAll('[required]');
+      let valid = true;
+      fields.forEach((f) => {
+        if (!f.value.trim()) {
+          valid = false;
+          f.style.borderColor = '#ef4444';
+          f.addEventListener('input', () => (f.style.borderColor = ''), { once: true });
         }
-      };
+      });
 
-      requestAnimationFrame(updateCount);
+      const email = form.querySelector('input[type="email"]');
+      if (email && email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+        valid = false;
+        email.style.borderColor = '#ef4444';
+        email.addEventListener('input', () => (email.style.borderColor = ''), { once: true });
+      }
+
+      if (!valid) return;
+
+      // Diagnóstico gratuito: abre WhatsApp con el mensaje armado
+      const phoneField = form.querySelector('#df-phone');
+      if (phoneField) {
+        const nameEl = form.querySelector('#df-name');
+        const sectorEl = form.querySelector('#df-sector');
+        const toolEl = form.querySelector('#df-tool');
+        const messageEl = form.querySelector('#df-message');
+
+        const nombre = nameEl ? nameEl.value.trim() : '';
+        const sector = sectorEl ? sectorEl.options[sectorEl.selectedIndex].text : '';
+        const tool = toolEl ? toolEl.options[toolEl.selectedIndex].text : '';
+        const mensaje = messageEl ? messageEl.value.trim() : '';
+
+        const texto = [
+          `¡Hola! Soy ${nombre}. Quiero un diagnóstico gratuito.`,
+          `Sector: ${sector}`,
+          `Herramienta que uso hoy: ${tool}`,
+          mensaje ? `\n${mensaje}` : ''
+        ].filter(Boolean).join('\n');
+
+        const url = `https://wa.me/573144795868?text=${encodeURIComponent(texto)}`;
+        window.open(url, '_blank', 'noopener');
+      }
+
+      if (successBox) {
+        successBox.classList.add('show');
+        successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      form.reset();
+
+      setTimeout(() => successBox && successBox.classList.remove('show'), 6000);
     });
+  });
+}
+
+/* =========================================================================
+   9. Hero questions → scroll to "Nosotros" section
+   ========================================================================= */
+function initHeroQuestions() {
+  const questions = document.querySelectorAll('.hero-question');
+  if (questions.length === 0) return;
+
+  const goToAbout = () => {
+    const target = document.getElementById('nosotros');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  // Intersection Observer to run animation when visual
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !hasAnimated) {
-        hasAnimated = true;
-        animateCounters();
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.2
-  });
-
-  observer.observe(metricsContainer);
-}
-
-/* =========================================================================
-   5. Smooth Scrolling for Navigation
-   ========================================================================= */
-function initSmoothScroll() {
-  const links = document.querySelectorAll('a[href^="#"]');
-  
-  links.forEach(link => {
-    link.addEventListener('click', function(e) {
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-      
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
+  questions.forEach((q) => {
+    q.setAttribute('role', 'button');
+    q.setAttribute('tabindex', '0');
+    q.addEventListener('click', goToAbout);
+    q.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
+        goToAbout();
       }
     });
   });
 }
 
 /* =========================================================================
-   6. Google Authentication Button
-   =========================================================================
-   NOTE: Wire this up to your real OAuth provider (Firebase, Google Identity
-   Services, etc.). The current implementation shows a loading state for UI
-   demonstration and logs a placeholder message to the console.
+   10. Shared footer component (single source, injected synchronously)
    ========================================================================= */
-function initGoogleAuth() {
-  const btn = document.getElementById('btn-google-auth');
-  if (!btn) return;
+const FOOTER_HTML = `
+<footer class="footer">
+  <canvas id="footer-canvas"></canvas>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+          <img class="brand-icon" src="icons/light_d3_182x182.png" alt="D3Apps Logo">
+          <span>D3Apps</span>
+        </a>
+        <p>Aplicaciones inteligentes para medir indicadores, organizar procesos y tomar decisiones basadas en información real.</p>
+        <div class="social-row">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4V8h4v2a6 6 0 0 1 2-2z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Productos</h4>
+        <ul>
+          <li><a href="d3-ventas.html">D3 Ventas</a></li>
+          <li><a href="d3-contabilidad-colombia.html">D3 Contabilidad</a></li>
+          <li><a href="d3-logistica.html">D3 Logística</a></li>
+          <li><a href="d3-transporte.html">D3 Transporte</a></li>
+          <li><a href="d3-proyectos.html">D3 Proyectos</a></li>
+          <li><a href="d3-formacion.html">D3 Formación</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sectores</h4>
+        <ul>
+          <li><a href="index.html#sectores">Sector Ventas</a></li>
+          <li><a href="index.html#sectores">Sector Contable</a></li>
+          <li><a href="index.html#sectores">Sector Logístico</a></li>
+          <li><a href="index.html#sectores">Sector Transporte</a></li>
+          <li><a href="index.html#sectores">Sector Proyectos</a></li>
+          <li><a href="index.html#sectores">Sector Deportivo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Nosotros y Contacto</h4>
+        <ul>
+          <li><a href="quienes-somos.html">Nosotros</a></li>
+          <li><a href="index.html#precios">Precios</a></li>
+          <li><a href="franquicias.html">Franquicias</a></li>
+        </ul>
+        <ul class="footer-contact" style="margin-top:1.2rem">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:+573144795868">+57 314 479 5868</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><a href="mailto:contacto@d3-apps.com">contacto@d3-apps.com</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg><a href="https://wa.me/573144795868" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 D3Apps Inc. Todos los derechos reservados.</span>
+      <div class="fb-links">
+        <a href="#">Privacidad</a>
+        <a href="#">Términos</a>
+        <a href="#">Soporte</a>
+      </div>
+    </div>
+  </div>
+</footer>
+`;
 
-  btn.addEventListener('click', () => {
-    // Show loading state
-    btn.classList.add('loading');
+function initFooter() {
+  const host = document.getElementById('site-footer');
+  if (!host) return;
 
-    // ─── Replace the setTimeout below with your real Google OAuth call ───
-    // Example with Firebase:
-    //   import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-    //   const provider = new GoogleAuthProvider();
-    //   signInWithPopup(getAuth(), provider)
-    //     .then(result => { /* handle success */ })
-    //     .catch(err  => { /* handle error  */ })
-    //     .finally(() => btn.classList.remove('loading'));
-    // ────────────────────────────────────────────────────────────────────
-    setTimeout(() => {
-      btn.classList.remove('loading');
-      console.log('[D3Apps] Google OAuth — integración pendiente.');
-    }, 1800);
-  });
+  host.innerHTML = FOOTER_HTML;
+  initFooterCanvas();
+
+  // En el index, los enlaces de sección deben funcionar sin recargar la página.
+  const isIndex =
+    !/\.html$/i.test(window.location.pathname) ||
+    /index\.html$/i.test(window.location.pathname);
+
+  if (isIndex) {
+    host.querySelectorAll('a[href^="index.html"]').forEach((a) => {
+      const href = a.getAttribute('href');
+      if (href === 'index.html') {
+        a.setAttribute('href', '#inicio');
+      } else if (href.indexOf('index.html#') === 0) {
+        a.setAttribute('href', href.replace('index.html', ''));
+      }
+    });
+    bindAnchorSmoothScroll(host);
+  }
 }

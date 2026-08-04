@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();
   initMobileNav();
   initSmoothScroll();
+  initBrokenLinkRedirect();
   initRevealAnimations();
   initSectorReveal();
   initFooter();
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCanvasBackground();
   initHeroQuestions();
   initDemoForms();
+  initAuthModal();
 });
 
 /* =========================================================================
@@ -39,7 +41,7 @@ const HEADER_HTML = `
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>
       </button>
-      <a href="https://portal.d3-apps.com" class="btn btn-primary btn-sm nav-btn">Ingresar al portal</a>
+      <button type="button" class="btn btn-primary btn-sm nav-btn" data-open-auth>Ingresar al portal</button>
       <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú">
         <span></span><span></span><span></span>
       </button>
@@ -53,7 +55,7 @@ const HEADER_HTML = `
     <a href="franquicias.html">Franquicias</a>
     <a href="index.html#sectores">Sectores</a>
     <a href="index.html#contacto">Contacto</a>
-    <a href="https://portal.d3-apps.com" class="btn btn-primary">Ingresar al portal</a>
+    <button type="button" class="btn btn-primary" data-open-auth>Ingresar al portal</button>
   </div>
 </header>
 `;
@@ -117,7 +119,7 @@ function initMobileNav() {
     menu.classList.toggle('open');
   });
 
-  menu.querySelectorAll('a').forEach((link) => {
+  menu.querySelectorAll('a, button').forEach((link) => {
     link.addEventListener('click', () => {
       toggle.classList.remove('active');
       menu.classList.remove('open');
@@ -526,7 +528,47 @@ function initHeroQuestions() {
 }
 
 /* =========================================================================
-   10. Shared footer component (single source, injected synchronously)
+   11. Broken internal links fallback → redirect to index
+   ========================================================================= */
+function initBrokenLinkRedirect() {
+  // Con file:// no se puede verificar la existencia de la página (fetch
+  // falla por CORS), así que se deja que el navegador maneje el enlace.
+  if (window.location.protocol === 'file:') return;
+
+  document.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href') || '';
+    // Solo enlaces internos a páginas .html (no anclas, ni http, mailto, tel…)
+    if (!/^(\.{0,2}\/)*[A-Za-z0-9][A-Za-z0-9_-]*\.html(?:[?#].*)?$/i.test(href)) return;
+
+    const url = new URL(href, window.location.href);
+    const indexPath = url.pathname.split('/').slice(0, -1).concat(['index.html']).join('/');
+
+    e.preventDefault();
+    fetch(url.href, { method: 'HEAD', cache: 'no-store' })
+      .then((res) => {
+        if (res.ok) {
+          if (link.target === '_blank') {
+            window.open(url.href, '_blank', 'noopener');
+          } else {
+            window.location.href = url.href;
+          }
+        } else {
+          window.location.href = indexPath;
+        }
+      })
+      .catch(() => {
+        window.location.href = indexPath;
+      });
+  });
+}
+
+/* =========================================================================
+   12. Shared footer component (single source, injected synchronously)
    ========================================================================= */
 const FOOTER_HTML = `
 <footer class="footer">
@@ -616,4 +658,141 @@ function initFooter() {
     });
     bindAnchorSmoothScroll(host);
   }
+}
+
+/* =========================================================================
+   13. Login / Register modal (header "Ingresar al portal")
+   ========================================================================= */
+const AUTH_MODAL_HTML = `
+<div class="modal" id="auth-modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <button type="button" class="modal-close" data-close aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" data-tab="login">Iniciar sesión</button>
+      <button type="button" class="auth-tab" data-tab="register">Registrarse</button>
+    </div>
+
+    <form id="auth-login" class="auth-form">
+      <label class="auth-field">Correo electrónico
+        <input type="email" name="email" required autocomplete="email" placeholder="tu@correo.com">
+      </label>
+      <label class="auth-field">Contraseña
+        <input type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+      </label>
+      <div class="auth-row">
+        <label class="auth-check"><input type="checkbox" name="remember"> Recordar contraseña</label>
+        <a href="#" class="auth-link">¿Olvidaste tu contraseña?</a>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+      <p class="auth-error" hidden></p>
+    </form>
+
+    <form id="auth-register" class="auth-form" hidden>
+      <label class="auth-field">Nombre completo
+        <input type="text" name="name" required autocomplete="name">
+      </label>
+      <label class="auth-field">Correo electrónico
+        <input type="email" name="email" required autocomplete="email">
+      </label>
+      <label class="auth-field">Contraseña
+        <input type="password" name="password" required minlength="8" autocomplete="new-password">
+      </label>
+      <button type="submit" class="btn btn-primary btn-block">Crear cuenta</button>
+      <p class="auth-error" hidden></p>
+    </form>
+
+    <div class="auth-divider"><span>o continúa con</span></div>
+
+    <div class="auth-social">
+      <button type="button" class="btn btn-social" data-provider="google">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15A11 11 0 0 0 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continuar con Google
+      </button>
+      <button type="button" class="btn btn-social" data-provider="facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.89v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.09 24 18.1 24 12.07z"/></svg>
+        Continuar con Facebook
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+function initAuthModal() {
+  let modal = document.getElementById('auth-modal');
+  if (!modal) {
+    const root = document.createElement('div');
+    root.innerHTML = AUTH_MODAL_HTML;
+    document.body.appendChild(root.firstElementChild);
+    modal = document.getElementById('auth-modal');
+  }
+  if (!modal) return;
+
+  const login = modal.querySelector('#auth-login');
+  const register = modal.querySelector('#auth-register');
+
+  const open = () => {
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    const first = login.querySelector('input');
+    if (first) first.focus();
+  };
+  const close = () => {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-open-auth]')) {
+      e.preventDefault();
+      open();
+    }
+  });
+
+  modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', close));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') close();
+  });
+
+  modal.querySelectorAll('.auth-tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      modal.querySelectorAll('.auth-tab').forEach((t) => t.classList.toggle('active', t === tab));
+      login.hidden = tab.dataset.tab !== 'login';
+      register.hidden = tab.dataset.tab !== 'register';
+    });
+  });
+
+  const showError = (form, msg) => {
+    const err = form.querySelector('.auth-error');
+    if (!err) return;
+    err.textContent = msg;
+    err.hidden = false;
+  };
+
+  login.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const remember = login.querySelector('[name="remember"]');
+    try { localStorage.setItem('d3apps-remember', remember && remember.checked ? '1' : '0'); } catch (x) {}
+    showError(login, 'Demo: la autenticación aún no está conectada al portal.');
+  });
+
+  register.addEventListener('submit', (e) => {
+    e.preventDefault();
+    showError(register, 'Demo: el registro aún no está conectado al portal.');
+  });
+
+  modal.querySelectorAll('.auth-link').forEach((a) => {
+    a.addEventListener('click', (e) => e.preventDefault());
+  });
+
+  modal.querySelectorAll('[data-provider]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      showError(login, `Demo: continuar con ${btn.dataset.provider} aún no configurado.`);
+    });
+  });
 }

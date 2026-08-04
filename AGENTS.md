@@ -34,7 +34,7 @@ landingpage/
     ├── d3-proyectos.html
     ├── d3-formacion.html
     ├── styles.css          # todo el CSS (tema claro + tema oscuro)
-    ├── app.js              # JS compartido (nav, scroll, reveal, canvas, forms, footer, tema)
+    ├── app.js              # JS compartido (nav, scroll, reveal, canvas, forms, footer, tema, modal de login)
     └── icons/              # logos (PNG) + video de la animación del logo (D3Apps_logo_animation...mp4)
 ```
 
@@ -84,7 +84,9 @@ Orden del contenido:
 2. `hero` — el mockup `.dashboard` incluye el video de la animación del logo
    (`icons/D3Apps_logo_animation_data_design_202606181210.mp4`) en `.dashboard-video`
    (solo en index; las páginas de producto conservan sus mockups con KPIs/gráficos).
-3. `about-section` (`id="nosotros"`) — "Si tienes dudas... estás en el lugar correcto".
+3. `about-section` (`id="nosotros"`) — hero con texto + imagen (`icons/solucion.png`) lado a
+   lado, 3 tarjetas horizontales (d1 Datos, d2 Diagnostico, d3 Decisiones), botones de
+   acción (WhatsApp + portal), y `about-quote` con blockquote.
 4. `options-section` (`id="soluciones"`) — 4 tarjetas "¿Qué quieres empezar a gestionar?".
 5. `sectors-section` (`id="sectores"`, oculta por defecto) — 6 sectores.
 6. `pricing-section` (`id="precios"`) — 3 tarjetas de paquetes de tokens y la
@@ -197,9 +199,14 @@ opciones WhatsApp / Correo / Teléfono), además del correo y el botón de Whats
 - Contacto de WhatsApp real: `+57 314 479 5868` (`https://wa.me/573144795868`,
   `tel:+573144795868`). El correo `contacto@d3-apps.com` y las redes sociales con `href="#"`
   siguen siendo placeholders.
-- El botón "Ingresar al portal" del header (en las 9 páginas, desktop y menú móvil) y el
-  botón "Comienza ahora mismo" del hero enlazan a `https://portal.d3-apps.com`, donde estará
-  instalada la aplicación para que los usuarios se registren o autentiquen.
+- El botón "Ingresar al portal" del header (en las 9 páginas, desktop y menú móvil) es un
+  `<button data-open-auth>` que abre el **modal de login/registro** (`#auth-modal`, componente
+  `AUTH_MODAL_HTML` en `app.js`, se inyecta solo en el body con `initAuthModal()`). El modal
+  incluye: pestañas Iniciar sesión / Registrarse, "Recordar contraseña" (persiste en
+  `localStorage('d3apps-remember')`), enlace "¿Olvidaste tu contraseña?" y botones de Google y
+  Facebook. Autenticación y OAuth son placeholders (sin backend). El botón "Comienza ahora
+  mismo" del hero sí enlaza a `https://portal.d3-apps.com`, donde estará instalada la
+  aplicación.
 - Verificar tras cada cambio: enlaces internos (relativos `d3-*.html`), que los IDs
   usados por `app.js` existan (`site-header`, `nav-toggle`, `mobile-menu`, `sectores`,
   `theme-toggle`; vienen de `HEADER_HTML`/`FOOTER_HTML`), y que las páginas respondan 200

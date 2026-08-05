@@ -33,14 +33,16 @@
       <canvas id="background-canvas"></canvas>
 
       <div class="container">
-        <span class="hero-badge reveal"><span class="dot"></span> Análisis de datos · Inteligencia de negocio</span>
+        <span class="hero-badge"><span class="dot"></span> Análisis de datos · Inteligencia de negocio</span>
 
-        <h1 class="reveal reveal-delay-1">¿Realmente conoces el <span class="accent">estado de tu negocio</span>?</h1>
+        <h1>¿Realmente conoces el <span class="accent">estado de tu negocio</span>?</h1>
+
+        
 
         <div class="hero-grid">
           <div class="hero-copy">
 
-            <p class="hero-sub reveal reveal-delay-2">
+            <p class="hero-sub">
               Convertimos los datos de tu empresa en información clara para que tomes decisiones con total confianza.
             </p>
 
@@ -89,15 +91,12 @@
               </div>
             </div>
 
+            <p class="hero-impact">Es hora de contarte la verdad. ¿Qué esperas? <a href="https://portal.d3-apps.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm hero-impact-btn">Empieza ahora</a></p>
           </div>
 
           <!-- Dashboard visual -->
-          <div class="hero-visual reveal reveal-delay-2">
+          <div class="hero-visual">
             <div class="glow"></div>
-
-            <div class="hero-actions reveal reveal-delay-3">
-              <a href="#contacto" class="btn btn-primary btn-lg">Quiero empezar, una guía no me quedaria mal</a>
-            </div>
 
             <a href="https://portal.d3-apps.com" target="_blank" rel="noopener" class="dashboard-link">
               <div class="dashboard">
@@ -111,12 +110,7 @@
               </div>
             </a>
 
-            <div class="hero-actions reveal reveal-delay-3">
-              <a href="https://portal.d3-apps.com" target="_blank" rel="noopener" class="btn btn-green btn-lg">Ingresar
-                al portal d3apps</a>
-            </div>
-
-            <div class="hero-trust reveal reveal-delay-4">
+            <div class="hero-trust">
               <div class="avatars">
                 <span style="background:#2563eb">V</span>
                 <span style="background:#10b981">C</span>
@@ -125,6 +119,12 @@
               </div>
               <span>Soluciones de software usadas por empresas de ventas, logística, transporte y otros sectores, que tienen en comun la mejora continua.</span>
             </div>
+
+            <div class="hero-actions">
+              <a href="https://portal.d3-apps.com" target="_blank" rel="noopener" class="btn btn-green btn-lg">Ingresar al portal d3apps</a>
+              <a href="#contacto" class="btn btn-primary btn-lg">Quiero empezar, una guía no me quedaria mal</a>
+            </div>
+
           </div>
         </div>
       </div>
@@ -140,8 +140,9 @@
                 lugar correcto.</span></h2>
           </div>
           <div class="about-hero-img">
-            <img src="icons/solucion.png" alt="Mira como D3Apps transforma tus datos en decisiones claras"
-              loading="lazy">
+            <video class="about-video-player" autoplay muted loop playsinline>
+              <source src="video/d1.mp4" type="video/mp4">
+            </video>
           </div>
         </div>
 
@@ -153,35 +154,27 @@
         </div>
 
         <div class="about-cards">
-          <div class="about-card reveal reveal-delay-1">
+          <div class="about-card reveal reveal-delay-1 active" data-video="video/d1.mp4">
             <div class="a-icon">
               <img src="icons/D1.png" alt="D1 Datos">
             </div>
             <p>Organiza tareas, responsables y tiempos para mantener el control total de tu operación diaria.</p>
           </div>
-          <div class="about-card reveal reveal-delay-2">
+          <div class="about-card reveal reveal-delay-2" data-video="video/d2.mp4">
             <div class="a-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path
-                  d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-              </svg>
+              <img src="icons/D2.png" alt="D2 Datos">
             </div>
-            <h3>d2 Diagnostico</h3>
             <p>Creemos soluciones que convierten los datos de tu operación en indicadores claros y accionables.</p>
           </div>
-          <div class="about-card reveal reveal-delay-3">
+          <div class="about-card reveal reveal-delay-3" data-video="video/d3.mp4">
             <div class="a-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <polygon
-                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
+              <img src="icons/D3.png" alt="D3 Decisiones">
             </div>
-            <h3>d3 Decisiones</h3>
             <p>Nuestros sistemas transforman datos en indicadores claros para que administres mejor tu empresa.</p>
           </div>
         </div>
+
+        
         <div class="about-quote reveal">
           <p class="section-desc" style="margin:0 auto">
             Nuestros sistemas transforman datos en indicadores claros para que puedas administrar mejor tu empresa.

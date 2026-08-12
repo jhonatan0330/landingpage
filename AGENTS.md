@@ -4,11 +4,11 @@ Guía para agentes de IA que trabajen en este repositorio.
 
 ## Modelo de negocio
 
-- **D3Apps opera bajo un modelo de franquicias**: la empresa central provee el software en
-  **SaaS** y cobra por **tokens usados**; las franquicias locales venden y acompañan la
+- **D3Apps opera bajo un modelo de partners**: la empresa central provee el software en
+  **SaaS** y cobra por **tokens usados**; los partners locales venden y acompañan la
   solución en su región.
 - La página debe reflejar este modelo: sección de precios basada en tokens y sección de
-  franquicias con opción de "conviértete en franquicia".
+  partners con opción de "conviértete en partner".
 
 ## Stack
 
@@ -26,7 +26,7 @@ landingpage/
 └── html/                   # raíz del sitio estático
     ├── index.html                      # landing principal
     ├── quienes-somos.html              # página "Quiénes somos" (misión + valores)
-    ├── franquicias.html                # página "Franquicias" (perfiles + formulario)
+    ├── partners.html                   # página "Partners" (perfiles + formulario)
     ├── d3-ventas.html                  # páginas de producto (6 total)
     ├── d3-contabilidad-colombia.html
     ├── d3-logistica.html
@@ -91,9 +91,9 @@ Orden del contenido:
 5. `sectors-section` (`id="sectores"`, oculta por defecto) — 6 sectores.
 6. `pricing-section` (`id="precios"`) — 3 tarjetas de paquetes de tokens y la
    **tabla de valores de tokens** (`.token-table`).
-7. `franchise-section` (`id="franquicias"`) — franquicias actuales (Termilago, Macrsas) y un
-   CTA que enlaza a `franquicias.html` para conocer beneficios y postularse. El formulario
-   "Conviértete en franquicia" vive en `franquicias.html#contacto`.
+7. `franchise-section` (`id="partners"`) — partners actuales (Termilago, Macrsas) y un
+   CTA que enlaza a `partners.html` para conocer beneficios y postularse. El formulario
+   "Conviértete en partner" vive en `partners.html#contacto`.
 8. `demo-section` (`id="contacto"`) — formulario de diagnóstico gratuito (`#demo-form`):
    Nombre, Teléfono/WhatsApp (obligatorio, `#df-phone`), Sector (`#df-sector`),
    Herramienta (`#df-tool`) y mensaje (`#df-message`). Al guardar arma un mensaje
@@ -104,21 +104,21 @@ Orden del contenido:
 
 ## Precios y tokens
 
-- Los precios, valores de tokens, franquicias y descripciones de franquicias son
+- Los precios, valores de tokens, partners y descripciones de partners son
   **placeholders**. Confirmar con el cliente antes de publicar cifras definitivas.
 - Tabla de valores actual (referencia): Pago por uso `$200/token`, Starter 1.000 `$180.000`
   (`$180/token`), Pro 5.000 `$750.000` (`$150/token`), Business 10.000 `$1.200.000`
   (`$120/token`), Enterprise 25.000+ a medida.
 - Copy del modelo: "D3Apps provee su software en modelo SaaS y cobra por tokens usados".
 
-## Franquicias
+## Partners
 
-- Franquicias actuales (listadas en `#franquicias` del index y en `franquicias.html`):
+- Partners actuales (listados en `#partners` del index y en `partners.html`):
   **Termilago** y **Macrsas**. Sus descripciones son placeholders; actualizar con la información real.
-- Cada tarjeta de franquicia tiene botones de contacto (WhatsApp y correo).
-- El formulario "Conviértete en franquicia" es un `.demo-form` dentro de `.franchise-cta`
-  ubicado en `franquicias.html#contacto`. El index solo conserva un CTA con enlace a
-  `franquicias.html`.
+- Cada tarjeta de partner tiene botones de contacto (WhatsApp y correo).
+- El formulario "Conviértete en partner" es un `.demo-form` dentro de `.franchise-cta`
+  ubicado en `partners.html#contacto`. El index solo conserva un CTA con enlace a
+  `partners.html`.
 
 ## Quiénes somos (quienes-somos.html)
 
@@ -158,7 +158,7 @@ opciones WhatsApp / Correo / Teléfono), además del correo y el botón de Whats
     Logístico → `d3-logistica.html`, Transporte → `d3-transporte.html`,
     Proyectos → `d3-proyectos.html`, Formación → `d3-formacion.html`
 - Nav (en las 9 páginas): Inicio, **Nosotros** (`quienes-somos.html`), Soluciones, Precios,
-  **Franquicias** (`franquicias.html`), Sectores, Contacto. En las páginas de producto los
+  **Partners** (`partners.html`), Sectores, Contacto. En las páginas de producto los
   enlaces apuntan a `index.html#sección`.
 
 ## Tema claro/oscuro

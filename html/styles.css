@@ -555,7 +555,6 @@ header.scrolled {
 .hero-sub {
   color: var(--ink-3);
   font-size: 1.12rem;
-  max-width: 30rem;
   margin-bottom: 1.9rem;
 }
 

@@ -33,8 +33,12 @@ landingpage/
     ├── d3-transporte.html
     ├── d3-proyectos.html
     ├── d3-formacion.html
+    ├── crear-cuenta.html               # página de creación de cuenta (registro → portal API)
     ├── styles.css          # todo el CSS (tema claro + tema oscuro)
-    ├── app.js              # JS compartido (nav, scroll, reveal, canvas, forms, footer, tema, modal de login)
+    ├── theme.js            # JS del tema (se carga síncrono en el <head> de todas las páginas)
+    ├── site.js             # JS compartido: header, footer, scroll, reveal, canvas del footer, forms, tema
+    ├── index.js            # JS solo del index (hero, partículas, sectores, about)
+    ├── signup.js           # JS solo de crear-cuenta.html (formulario de registro + Turnstile)
     └── icons/              # logos (PNG) + video de la animación del logo (D3Apps_logo_animation...mp4)
 ```
 
@@ -48,16 +52,26 @@ landingpage/
 ## Convenciones del código
 
 - **Un solo `styles.css` compartido** por todas las páginas. No crear hojas por página.
-- **Un solo `app.js` compartido** cargado al final del `<body>` en todas las páginas.
+- **JS por responsabilidad** (no un solo `app.js`):
+  - `theme.js` — aplica el tema antes del primer pintado; se carga **síncrono en el `<head>`**
+    de todas las páginas, justo antes del `<link>` de CSS (evita el flash de tema incorrecto).
+    Sustituyó el script inline que estaba en cada página; no volver a duplicarlo.
+  - `site.js` — compartido por todas las páginas, cargado al final del `<body>` (header, footer,
+    scroll, reveal, canvas del footer, forms de diagnóstico, tema, redirección de enlaces rotos).
+  - `index.js` — solo `index.html` (hero, partículas, sectores, about).
+  - `signup.js` — solo `crear-cuenta.html` (formulario de registro + Turnstile).
+  - Cualquier JS que use una sola página va en su propio archivo (`<pagina>.js`), no en `site.js`.
+- El **formulario de registro** (`#signup-form`) no usa la clase `.demo-form`: `initDemoForms()`
+  selecciona `.demo-form:not(#signup-form)` para no interceptar el envío del registro.
 - Todas las páginas comparten el mismo header (nav) y footer, ambos como **componentes únicos**:
-  su markup vive en las constantes `HEADER_HTML` y `FOOTER_HTML` de `app.js`, inyectadas de
+  su markup vive en las constantes `HEADER_HTML` y `FOOTER_HTML` de `site.js`, inyectadas de
   forma **síncrona** por `initHeader()` y `initFooter()` en los placeholders
   `<header id="site-header"></header>` y `<div id="site-footer"></div>` de cada página
   (sin `fetch`, así funciona también abriendo los archivos con `file://`). Para modificar
   header o footer basta editar esas constantes; no duplicar markup en las páginas. No crear
   `header.html` ni `footer.html` separados (drift y CORS en `file://`).
-- `initHeader()` corre **primero** en `DOMContentLoaded` (antes de `initHeaderScroll`,
-  `initMobileNav`, `initSmoothScroll`, `initSectorReveal` e `initThemeToggle`), porque esas
+- `initHeader()` corre **primero** en `DOMContentLoaded` de `site.js` (antes de `initHeaderScroll`,
+  `initMobileNav`, `initSmoothScroll` e `initThemeToggle`), porque esas
   funciones dependen de `#site-header`, `#nav-toggle`, `#mobile-menu` y `#theme-toggle`.
   El placeholder debe ser el elemento `<header>` (no un `<div>`), para preservar el
   `position: sticky` del CSS.
@@ -73,14 +87,15 @@ landingpage/
 - Iconos: SVGs inline (stroke="currentColor"). No usar emojis en el diseño (los textos
   con emoji en el copy de index.html son intencionales).
 - Animaciones al hacer scroll: añadir clase `reveal` (+ `reveal-delay-1..4`).
-- JS se organiza en funciones `init*()` registradas en `DOMContentLoaded` en `app.js`.
+- JS se organiza en funciones `init*()` registradas en `DOMContentLoaded` dentro del
+  archivo correspondiente (`site.js` para lo compartido, `<pagina>.js` para lo específico).
 
 ## Secciones del landing (index.html)
 
 Orden del contenido:
 
 1. `hero` (`id="inicio"`) — incluye `<canvas id="background-canvas">` con la animación
-   de partículas/rejilla (inicializada en `initCanvasBackground()` en `app.js`).
+   de partículas/rejilla (inicializada en `initCanvasBackground()` en `index.js`).
 2. `hero` — el mockup `.dashboard` incluye el video de la animación del logo
    (`icons/D3Apps_logo_animation_data_design_202606181210.mp4`) en `.dashboard-video`
    (solo en index; las páginas de producto conservan sus mockups con KPIs/gráficos).
@@ -167,10 +182,10 @@ opciones WhatsApp / Correo / Teléfono), además del correo y el botón de Whats
   dark se definen en `[data-theme="dark"]` en `styles.css` redefiniendo las variables de `:root`
   (nunca hardcodear colores dark por selector salvo casos puntuales con
   `[data-theme="dark"] .clase { ... }`).
-- Un script inline en el `<head>` de las 9 páginas aplica el tema antes de pintar (lee
-  `localStorage('d3apps-theme')`; si no hay preferencia guardada, el default es **dark**).
-  Esto evita el "flash" de tema incorrecto.
-- `initThemeToggle()` (en `app.js`) maneja el botón `#theme-toggle` y persiste la elección en
+- `theme.js` (síncrono en el `<head>` de todas las páginas, antes del `<link>` de CSS) aplica
+  el tema antes de pintar (lee `localStorage('d3apps-theme')`; si no hay preferencia guardada,
+  el default es **dark**). Esto evita el "flash" de tema incorrecto.
+- `initThemeToggle()` (en `site.js`) maneja el botón `#theme-toggle` y persiste la elección en
   `localStorage`. El tema por defecto es **oscuro**; no sigue a `prefers-color-scheme`.
 - `--surface` es la variable de "superficie/card" (equivale a `var(--white)` en claro). Usar
   `var(--surface)` para fondos de tarjetas/secciones; `var(--white)` queda reservado para texto
@@ -200,14 +215,17 @@ opciones WhatsApp / Correo / Teléfono), además del correo y el botón de Whats
   `tel:+573144795868`). El correo `contacto@d3-apps.com` y las redes sociales con `href="#"`
   siguen siendo placeholders.
 - El botón "Ingresar al portal" del header (en las 9 páginas, desktop y menú móvil) es un
-  `<button data-open-auth>` que abre el **modal de login/registro** (`#auth-modal`, componente
-  `AUTH_MODAL_HTML` en `app.js`, se inyecta solo en el body con `initAuthModal()`). El modal
-  incluye: pestañas Iniciar sesión / Registrarse, "Recordar contraseña" (persiste en
-  `localStorage('d3apps-remember')`), enlace "¿Olvidaste tu contraseña?" y botones de Google y
-  Facebook. Autenticación y OAuth son placeholders (sin backend). El botón "Comienza ahora
-  mismo" del hero sí enlaza a `https://portal.d3-apps.com`, donde estará instalada la
-  aplicación.
+  enlace directo a `https://portal.d3-apps.com` (no hay modal de login; el modal fue retirado).
+  La creación de cuenta vive en `crear-cuenta.html`: su formulario `#signup-form` valida los
+  campos, incluye honeypot y (cuando `TURNSTILE_ENABLED` es `true`) un widget de Cloudflare
+  Turnstile, y envía `{ name, email, password, turnstileToken }` por `fetch` a
+  `https://portal.d3-apps.com/api/account` (constantes `SIGNUP_API_URL`, `TURNSTILE_SITEKEY`
+  y `TURNSTILE_ENABLED` en `signup.js`). El endpoint responde
+  `200/201 {status:'pending_confirmation'}` o `4xx {code: 'email_exists' | 'invalid_email' |
+  'captcha_failed' | 'rate_limited'}`; de él depende enviar el correo de confirmación
+  (doble opt-in), verificar Turnstile server-side, el rate-limit y el CORS de la landing.
+  Los botones "Crear tu cuenta" del index enlazan a `crear-cuenta.html`.
 - Verificar tras cada cambio: enlaces internos (relativos `d3-*.html`), que los IDs
-  usados por `app.js` existan (`site-header`, `nav-toggle`, `mobile-menu`, `sectores`,
+  usados por `site.js` existan (`site-header`, `nav-toggle`, `mobile-menu`, `sectores`,
   `theme-toggle`; vienen de `HEADER_HTML`/`FOOTER_HTML`), y que las páginas respondan 200
   (servidor estático).

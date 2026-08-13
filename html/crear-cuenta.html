@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="theme.js"></script>
+  <title>Crear tu cuenta — Recibe 1.000 tokens al mes | D3Apps</title>
+  <meta name="description"
+    content="Crea tu cuenta en D3Apps y recibe 1.000 tokens mensuales gratis. Solo necesitas tu correo electrónico: te enviaremos un correo de confirmación para activarla.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icons/dark_264x264.png">
+</head>
+
+<body>
+
+  <!-- ======================= HEADER ======================= -->
+  <header id="site-header"></header>
+
+  <main>
+
+    <!-- ======================= CREAR CUENTA ======================= -->
+    <section class="product-hero" id="crear-cuenta">
+      <div class="container">
+        <nav class="breadcrumb reveal">
+          <a href="index.html">Inicio</a>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+          <span>Crear tu cuenta</span>
+        </nav>
+
+        <div class="demo-layout">
+          <div class="demo-info reveal">
+            <span class="section-label" style="margin-bottom:0.6rem">Empieza gratis</span>
+            <h2>Crea tu cuenta y recibe <span class="accent">1.000 tokens al mes</span></h2>
+            <p>
+              Solo necesitas tu correo electrónico. Te enviaremos un correo de confirmación para activar tu cuenta y
+              empezar a tomar decisiones con información real.
+            </p>
+            <div class="demo-points">
+              <div class="demo-point">
+                <span class="check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                </span>
+                <span><b>1.000 tokens gratuitos</b> cada mes, sin tarjeta de crédito.</span>
+              </div>
+              <div class="demo-point">
+                <span class="check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                </span>
+                <span>Confirmación por correo: <b>solo se activan cuentas reales</b>.</span>
+              </div>
+              <div class="demo-point">
+                <span class="check">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                </span>
+                <span>Usa tus tokens en <b>cualquiera de los productos D3Apps</b>.</span>
+              </div>
+            </div>
+            <p style="font-size:0.88rem;color:var(--muted);margin-bottom:0">
+              ¿Ya tienes cuenta? <a href="index.html" style="color:var(--primary);font-weight:600">Ingresa al portal</a>.
+            </p>
+          </div>
+
+          <div class="demo-card reveal reveal-delay-1">
+            <h3>Crear tu cuenta</h3>
+            <p>Te enviaremos un correo de confirmación para activarla.</p>
+
+            <form id="signup-form" novalidate>
+              <input type="text" id="su-hp" name="su-hp" tabindex="-1" aria-hidden="true" class="hp-field"
+                autocomplete="off">
+
+              <div class="form-group" style="margin-bottom:1rem">
+                <label class="form-label" for="su-name">Nombre completo</label>
+                <input class="input-field" type="text" id="su-name" name="name" placeholder="Tu nombre"
+                  autocomplete="name" required>
+              </div>
+
+              <div class="form-group" style="margin-bottom:1rem">
+                <label class="form-label" for="su-email">Correo electrónico</label>
+                <input class="input-field" type="email" id="su-email" name="email" placeholder="tu@correo.com"
+                  autocomplete="email" required>
+              </div>
+
+              <div class="form-grid" style="margin-bottom:1rem">
+                <div class="form-group">
+                  <label class="form-label" for="su-password">Contraseña</label>
+                  <input class="input-field" type="password" id="su-password" name="password" placeholder="Mínimo 8 caracteres"
+                    autocomplete="new-password" minlength="8" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="su-password2">Confirmar contraseña</label>
+                  <input class="input-field" type="password" id="su-password2" name="password2"
+                    placeholder="Repite tu contraseña" autocomplete="new-password" minlength="8" required>
+                </div>
+              </div>
+
+              <div class="turnstile-wrap" id="turnstile-wrap"></div>
+
+              <button type="submit" id="su-submit" class="btn btn-primary btn-lg">Crear cuenta</button>
+              <p class="form-note">Al crear tu cuenta aceptas los <a href="#">Términos</a> y la <a href="#">Política de
+                  privacidad</a>.</p>
+
+              <div class="form-success" id="signup-success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+                <span>¡Listo! Te enviamos un correo de confirmación a <b id="signup-success-email">tu@correo.com</b>.
+                  Revisa tu bandeja de entrada (y la carpeta de spam) para activar tu cuenta.</span>
+              </div>
+
+              <div class="signup-error" id="signup-error" role="alert"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= CTA ======================= -->
+    <section>
+      <div class="container">
+        <div class="cta-band reveal">
+          <h2>Empieza a tomar decisiones con información real.</h2>
+          <p>Agenda una demostración o conversa con un asesor. Te ayudamos a elegir la solución perfecta.</p>
+          <div class="cta-actions">
+            <a href="index.html#contacto" class="btn btn-white btn-lg">Solicitar una demostración</a>
+            <a href="https://wa.me/573144795868" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">Hablar con
+              un asesor</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================= FOOTER ======================= -->
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+  <script src="signup.js"></script>
+</body>
+
+</html>

@@ -4,15 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem('d3apps-theme');
-        if (!t) { t = 'dark'; }
-        document.documentElement.dataset.theme = t;
-      } catch (e) { document.documentElement.dataset.theme = 'dark'; }
-    })();
-  </script>
+  <script src="theme.js"></script>
   <title>D3Apps — Conoce el estado real de tu negocio</title>
   <meta name="description"
     content="D3Apps crea aplicaciones inteligentes para medir indicadores, organizar procesos y tomar decisiones basadas en información real. Ventas, contabilidad, logística, transporte, proyectos y más.">
@@ -91,7 +83,7 @@
               </div>
             </div>
 
-            <p class="hero-impact"> <a href="https://portal.d3-apps.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm hero-impact-btn">Crear tu cuenta, es recibes 1000 tokens mensuales gratis</a> Es hora de contarte la verdad. ¿Qué esperas? </p>
+            <p class="hero-impact"> <a href="crear-cuenta.html" class="btn btn-primary btn-sm hero-impact-btn">Crear tu cuenta, recibes 1000 tokens mensuales gratis</a> Es hora de contarte la verdad. ¿Qué esperas? </p>
           </div>
 
           <!-- Dashboard visual -->
@@ -190,7 +182,7 @@
             </svg>
             Hablar con un asesor
           </a>
-          <a href="https://portal.d3-apps.com" target="_blank" rel="noopener" class="btn btn-green btn-lg">
+          <a href="crear-cuenta.html" class="btn btn-green btn-lg">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
               stroke-linejoin="round" width="20" height="20">
               <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
@@ -726,7 +718,8 @@
   <!-- ======================= FOOTER ======================= -->
   <div id="site-footer"></div>
 
-  <script src="app.js"></script>
+  <script src="site.js"></script>
+  <script src="index.js"></script>
 </body>
 
 </html>

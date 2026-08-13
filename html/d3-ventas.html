@@ -4,15 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem('d3apps-theme');
-        if (!t) { t = 'dark'; }
-        document.documentElement.dataset.theme = t;
-      } catch (e) { document.documentElement.dataset.theme = 'dark'; }
-    })();
-  </script>
+  <script src="theme.js"></script>
   <title>D3 Ventas — Gestiona tu operación comercial en tiempo real | D3Apps</title>
   <meta name="description"
     content="D3 Ventas: centraliza tu gestión comercial, conoce tus indicadores de ventas, clientes y metas en tiempo real.">
@@ -341,7 +333,7 @@
   <!-- ======================= FOOTER ======================= -->
   <div id="site-footer"></div>
 
-  <script src="app.js"></script>
+  <script src="site.js"></script>
 </body>
 
 </html>

@@ -1,20 +1,15 @@
-// D3Apps — Landing Page Script
+// D3Apps — Script compartido: header, footer y comportamientos globales.
+// Se carga al final del <body> en todas las páginas.
 document.addEventListener('DOMContentLoaded', () => {
   initHeader();
   initHeaderScroll();
   initMobileNav();
   initSmoothScroll();
   initBrokenLinkRedirect();
-  initHeroTextReveal();
   initRevealAnimations();
-  initSectorReveal();
   initFooter();
   initThemeToggle();
-  initCanvasBackground();
-  initHeroQuestions();
-  initAboutCards();
   initDemoForms();
-  initAuthModal();
 });
 
 /* =========================================================================
@@ -43,7 +38,7 @@ const HEADER_HTML = `
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>
       </button>
-      <button type="button" class="btn btn-primary btn-sm nav-btn" data-open-auth>Ingresar al portal</button>
+      <a href="https://portal.d3-apps.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm nav-btn">Ingresar al portal</a>
       <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú">
         <span></span><span></span><span></span>
       </button>
@@ -57,7 +52,7 @@ const HEADER_HTML = `
     <a href="partners.html">Partners</a>
     <a href="index.html#sectores">Sectores</a>
     <a href="index.html#contacto">Contacto</a>
-    <button type="button" class="btn btn-primary" data-open-auth>Ingresar al portal</button>
+    <a href="https://portal.d3-apps.com" target="_blank" rel="noopener" class="btn btn-primary">Ingresar al portal</a>
   </div>
 </header>
 `;
@@ -178,31 +173,7 @@ function initRevealAnimations() {
 }
 
 /* =========================================================================
-   5. Reveal the sectors section on demand
-   ========================================================================= */
-function initSectorReveal() {
-  const sectorSection = document.getElementById('sectores');
-  if (!sectorSection) return;
-
-  const revealSectors = (e) => {
-    e.preventDefault();
-    if (sectorSection.hidden) {
-      sectorSection.hidden = false;
-      // Trigger reveal animations inside after it becomes visible
-      requestAnimationFrame(() => {
-        sectorSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
-      });
-    }
-    sectorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  document.querySelectorAll('.sector-trigger, a[href="#sectores"]').forEach((el) => {
-    el.addEventListener('click', revealSectors);
-  });
-}
-
-/* =========================================================================
-   6. Theme toggle (dark / light)
+   5. Theme toggle (dark / light)
    ========================================================================= */
 function initThemeToggle() {
   const toggle = document.getElementById('theme-toggle');
@@ -232,7 +203,8 @@ function initThemeToggle() {
 }
 
 /* =========================================================================
-   7. Animated particle & grid canvas background (hero + footer)
+   6. Animated particle & grid canvas background (footer; el del hero vive en
+   index.js)
    ========================================================================= */
 function initParticleCanvas(canvas, host, opts) {
   if (!canvas) return;
@@ -414,17 +386,6 @@ function initParticleCanvas(canvas, host, opts) {
   loop();
 }
 
-function initCanvasBackground() {
-  const canvas = document.getElementById('background-canvas');
-  if (!canvas) return;
-  const hero = document.getElementById('hero');
-  initParticleCanvas(canvas, hero, {
-    themeAware: true,
-    colorDark: { r: 96, g: 165, b: 250 },
-    colorLight: { r: 37, g: 99, b: 235 }
-  });
-}
-
 function initFooterCanvas() {
   const canvas = document.getElementById('footer-canvas');
   if (!canvas) return;
@@ -440,10 +401,10 @@ function initFooterCanvas() {
 }
 
 /* =========================================================================
-   8. Demo / diagnostic forms (index + product pages)
+   7. Demo / diagnostic forms (index + product pages + partners)
    ========================================================================= */
 function initDemoForms() {
-  const forms = document.querySelectorAll('.demo-form');
+  const forms = document.querySelectorAll('.demo-form:not(#signup-form)');
   forms.forEach((form) => {
     const successBox = form.querySelector('.form-success');
     form.addEventListener('submit', (e) => {
@@ -505,119 +466,7 @@ function initDemoForms() {
 }
 
 /* =========================================================================
-   9. Hero text reveal — word-by-word title + scale-in for hero elements
-   ========================================================================= */
-function initHeroTextReveal() {
-  const h1 = document.querySelector('.hero h1');
-  if (!h1) return;
-
-  // Wrap each word in .hero-word span
-  const html = h1.innerHTML;
-  const wrapped = html.replace(/(<[^>]+>)?([^<]*)/g, (match, tag, text) => {
-    if (!text.trim()) return match;
-    if (tag && tag.includes('accent')) return match;
-    const words = text.split(/(\s+)/);
-    return words.map(w => {
-      if (!w.trim()) return w;
-      return `<span class="hero-word">${w}</span>`;
-    }).join('');
-  });
-  h1.innerHTML = wrapped;
-
-  // Stagger animation per word
-  const words = h1.querySelectorAll('.hero-word');
-  words.forEach((word, i) => {
-    word.style.animationDelay = `${i * 0.07}s`;
-    word.classList.add('word-reveal');
-  });
-
-  // Scale-in for other hero elements
-  const scaleTargets = [
-    { el: document.querySelector('.hero-badge'), delay: 0 },
-    { el: document.querySelector('.hero-sub'), delay: 0.15 },
-    { el: document.querySelector('.hero-visual'), delay: 0.3 },
-    { el: document.querySelector('.hero-visual .hero-actions'), delay: 0.45 },
-    { el: document.querySelector('.hero-trust'), delay: 0.55 },
-  ];
-  scaleTargets.forEach(({ el, delay }) => {
-    if (!el) return;
-    el.classList.add('hero-scale');
-    setTimeout(() => el.classList.add('scale-in'), delay * 1000);
-  });
-
-  // Impact phrase animation
-  const impact = document.querySelector('.hero-impact');
-  if (impact) {
-    impact.classList.add('word-reveal');
-  }
-}
-
-/* =========================================================================
-   10. Hero questions → stagger reveal + scroll to "Nosotros"
-   ========================================================================= */
-function initHeroQuestions() {
-  const questions = document.querySelectorAll('.hero-question');
-  if (questions.length === 0) return;
-
-  // Stagger reveal: each question appears 2s apart
-  questions.forEach((q, i) => {
-    setTimeout(() => q.classList.add('q-visible'), 1500 + i * 2000);
-  });
-
-  const goToAbout = () => {
-    const target = document.getElementById('nosotros');
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  questions.forEach((q) => {
-    q.setAttribute('role', 'button');
-    q.setAttribute('tabindex', '0');
-    q.addEventListener('click', goToAbout);
-    q.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        goToAbout();
-      }
-    });
-  });
-}
-
-/* =========================================================================
-   11. About cards → switch video on card click
-   ========================================================================= */
-function initAboutCards() {
-  const cards = document.querySelectorAll('.about-card[data-video]');
-  const video = document.querySelector('.about-video-player');
-  if (cards.length === 0 || !video) return;
-
-  const sources = Array.from(cards).map((c) => c.getAttribute('data-video'));
-  let currentIndex = 0;
-
-  function playCard(index) {
-    currentIndex = index;
-    cards.forEach((c) => c.classList.remove('active'));
-    cards[index].classList.add('active');
-    const source = video.querySelector('source');
-    if (source) {
-      source.src = sources[index];
-      video.load();
-      video.play().catch(() => {});
-    }
-  }
-
-  cards.forEach((card, i) => {
-    card.addEventListener('click', () => playCard(i));
-  });
-
-  // Auto-advance to next video when current ends
-  video.addEventListener('ended', () => {
-    const next = (currentIndex + 1) % sources.length;
-    playCard(next);
-  });
-}
-
-/* =========================================================================
-   12. Broken internal links fallback → redirect to index
+   8. Broken internal links fallback → redirect to index
    ========================================================================= */
 function initBrokenLinkRedirect() {
   // Con file:// no se puede verificar la existencia de la página (fetch
@@ -657,7 +506,7 @@ function initBrokenLinkRedirect() {
 }
 
 /* =========================================================================
-   12. Shared footer component (single source, injected synchronously)
+   9. Shared footer component (single source, injected synchronously)
    ========================================================================= */
 const FOOTER_HTML = `
 <footer class="footer">
@@ -747,141 +596,4 @@ function initFooter() {
     });
     bindAnchorSmoothScroll(host);
   }
-}
-
-/* =========================================================================
-   13. Login / Register modal (header "Ingresar al portal")
-   ========================================================================= */
-const AUTH_MODAL_HTML = `
-<div class="modal" id="auth-modal" aria-hidden="true">
-  <div class="modal-backdrop" data-close></div>
-  <div class="modal-card">
-    <button type="button" class="modal-close" data-close aria-label="Cerrar">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-    </button>
-
-    <div class="auth-tabs">
-      <button type="button" class="auth-tab active" data-tab="login">Iniciar sesión</button>
-      <button type="button" class="auth-tab" data-tab="register">Registrarse</button>
-    </div>
-
-    <form id="auth-login" class="auth-form">
-      <label class="auth-field">Correo electrónico
-        <input type="email" name="email" required autocomplete="email" placeholder="tu@correo.com">
-      </label>
-      <label class="auth-field">Contraseña
-        <input type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
-      </label>
-      <div class="auth-row">
-        <label class="auth-check"><input type="checkbox" name="remember"> Recordar contraseña</label>
-        <a href="#" class="auth-link">¿Olvidaste tu contraseña?</a>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
-      <p class="auth-error" hidden></p>
-    </form>
-
-    <form id="auth-register" class="auth-form" hidden>
-      <label class="auth-field">Nombre completo
-        <input type="text" name="name" required autocomplete="name">
-      </label>
-      <label class="auth-field">Correo electrónico
-        <input type="email" name="email" required autocomplete="email">
-      </label>
-      <label class="auth-field">Contraseña
-        <input type="password" name="password" required minlength="8" autocomplete="new-password">
-      </label>
-      <button type="submit" class="btn btn-primary btn-block">Crear cuenta</button>
-      <p class="auth-error" hidden></p>
-    </form>
-
-    <div class="auth-divider"><span>o continúa con</span></div>
-
-    <div class="auth-social">
-      <button type="button" class="btn btn-social" data-provider="google">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15A11 11 0 0 0 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Continuar con Google
-      </button>
-      <button type="button" class="btn btn-social" data-provider="facebook">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.89v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.09 24 18.1 24 12.07z"/></svg>
-        Continuar con Facebook
-      </button>
-    </div>
-  </div>
-</div>
-`;
-
-function initAuthModal() {
-  let modal = document.getElementById('auth-modal');
-  if (!modal) {
-    const root = document.createElement('div');
-    root.innerHTML = AUTH_MODAL_HTML;
-    document.body.appendChild(root.firstElementChild);
-    modal = document.getElementById('auth-modal');
-  }
-  if (!modal) return;
-
-  const login = modal.querySelector('#auth-login');
-  const register = modal.querySelector('#auth-register');
-
-  const open = () => {
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    const first = login.querySelector('input');
-    if (first) first.focus();
-  };
-  const close = () => {
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  };
-
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('[data-open-auth]')) {
-      e.preventDefault();
-      open();
-    }
-  });
-
-  modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', close));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') close();
-  });
-
-  modal.querySelectorAll('.auth-tab').forEach((tab) => {
-    tab.addEventListener('click', () => {
-      modal.querySelectorAll('.auth-tab').forEach((t) => t.classList.toggle('active', t === tab));
-      login.hidden = tab.dataset.tab !== 'login';
-      register.hidden = tab.dataset.tab !== 'register';
-    });
-  });
-
-  const showError = (form, msg) => {
-    const err = form.querySelector('.auth-error');
-    if (!err) return;
-    err.textContent = msg;
-    err.hidden = false;
-  };
-
-  login.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const remember = login.querySelector('[name="remember"]');
-    try { localStorage.setItem('d3apps-remember', remember && remember.checked ? '1' : '0'); } catch (x) {}
-    showError(login, 'Demo: la autenticación aún no está conectada al portal.');
-  });
-
-  register.addEventListener('submit', (e) => {
-    e.preventDefault();
-    showError(register, 'Demo: el registro aún no está conectado al portal.');
-  });
-
-  modal.querySelectorAll('.auth-link').forEach((a) => {
-    a.addEventListener('click', (e) => e.preventDefault());
-  });
-
-  modal.querySelectorAll('[data-provider]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      showError(login, `Demo: continuar con ${btn.dataset.provider} aún no configurado.`);
-    });
-  });
 }

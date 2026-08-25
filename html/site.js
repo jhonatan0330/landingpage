@@ -27,7 +27,7 @@ const HEADER_HTML = `
         <li><a href="index.html#inicio">Inicio</a></li>
         <li><a href="quienes-somos.html">Nosotros</a></li>
         <li><a href="index.html#soluciones">Soluciones</a></li>
-        <li><a href="index.html#precios">Precios</a></li>
+        <li><a href="pricing.html">Precios</a></li>
           <li><a href="partners.html">Partners</a></li>
         <li><a href="index.html#sectores">Sectores</a></li>
         <li><a href="index.html#contacto">Contacto</a></li>
@@ -48,7 +48,7 @@ const HEADER_HTML = `
     <a href="index.html#inicio">Inicio</a>
     <a href="quienes-somos.html">Nosotros</a>
     <a href="index.html#soluciones">Soluciones</a>
-    <a href="index.html#precios">Precios</a>
+    <a href="pricing.html">Precios</a>
     <a href="partners.html">Partners</a>
     <a href="index.html#sectores">Sectores</a>
     <a href="index.html#contacto">Contacto</a>
@@ -551,7 +551,7 @@ const FOOTER_HTML = `
         <h4>Nosotros y Contacto</h4>
         <ul>
           <li><a href="quienes-somos.html">Nosotros</a></li>
-          <li><a href="index.html#precios">Precios</a></li>
+          <li><a href="pricing.html">Precios</a></li>
         <li><a href="partners.html">Partners</a></li>
         </ul>
         <ul class="footer-contact" style="margin-top:1.2rem">

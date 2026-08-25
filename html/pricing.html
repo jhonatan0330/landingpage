@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="theme.js"></script>
+  <title>Precios — D3Apps: planes y capacidad por Usage Units</title>
+  <meta name="description"
+    content="Empieza gratis con 1K Usage Units cada día y crece cuando lo necesites. Planes FREE, Starter, Growth, Business, Pro y Enterprise para tu plataforma D3Apps.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icons/dark_264x264.png">
+</head>
+
+<body id="pricing">
+
+  <!-- ======================= HEADER ======================= -->
+  <header id="site-header"></header>
+
+  <main>
+
+    <!-- ======================= HERO ======================= -->
+    <section class="pricing-hero">
+      <div class="container">
+        <span class="section-label" id="pricing-label">Precios</span>
+        <h1 id="pricing-hero-title"></h1>
+        <p class="pricing-hero-sub" id="pricing-hero-sub"></p>
+      </div>
+    </section>
+
+    <!-- ======================= PLANES ======================= -->
+    <section class="pricing-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Planes</span>
+          <h2 class="section-title" id="plans-title"></h2>
+          <p class="section-desc" id="plans-sub"></p>
+        </div>
+        <div class="pricing-grid" id="plans-grid"></div>
+      </div>
+    </section>
+
+    <!-- ======================= ADD-ONS ======================= -->
+    <section class="addons-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label" id="addons-label"></span>
+          <h2 class="section-title" id="addons-title"></h2>
+          <p class="section-desc" id="addons-sub"></p>
+        </div>
+        <div class="addon-grid" id="addons-grid"></div>
+      </div>
+    </section>
+
+    <!-- ======================= CÓMO FUNCIONA ======================= -->
+    <section class="howitworks-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label" id="how-label"></span>
+          <h2 class="section-title" id="how-title"></h2>
+        </div>
+        <div class="how-box reveal">
+          <p id="how-body"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= CTA ======================= -->
+    <section style="padding-bottom: 4rem">
+      <div class="container">
+        <div class="cta-band reveal">
+          <h2 id="cta-title"></h2>
+          <p id="cta-sub"></p>
+          <div class="cta-actions">
+            <a href="crear-cuenta.html" class="btn btn-white btn-lg">Crear tu cuenta</a>
+            <a href="https://wa.me/573144795868" target="_blank" rel="noopener"
+              class="btn btn-ghost btn-lg">Hablar con un asesor</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================= FOOTER ======================= -->
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+  <script src="pricing-data.js"></script>
+  <script src="pricing.js"></script>
+</body>
+
+</html>
